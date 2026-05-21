@@ -1,4 +1,4 @@
-// Service worker do MedSchedule — estratégia network-first com fallback ao cache.
+// Service worker do MedSchedule: estratégia network-first com fallback ao cache.
 const CACHE = "medschedule-v1";
 
 self.addEventListener("install", () => {

@@ -75,7 +75,7 @@ function SidebarContent({
 
   return (
     <>
-      {/* Logo — leva ao calendário */}
+      {/* Logo: leva ao calendário */}
       <Link
         href="/"
         onClick={onNavigate}
@@ -134,7 +134,7 @@ function SidebarContent({
         })}
       </nav>
 
-      {/* Footer — conta do usuário (leva às configurações) */}
+      {/* Rodapé: conta do usuário, leva às configurações */}
       <div className="border-t border-line p-3 lg:p-4">
         <div
           className={cn(
@@ -208,7 +208,7 @@ export function AppShell({
 
   return (
     <div className="flex h-screen overflow-hidden">
-      {/* Sidebar fixa — tablet e desktop */}
+      {/* Sidebar fixa: tablet e desktop */}
       <aside className="hidden w-[76px] shrink-0 flex-col border-r border-line bg-surface md:flex lg:w-64">
         <SidebarContent
           expanded={false}
@@ -222,7 +222,7 @@ export function AppShell({
         />
       </aside>
 
-      {/* Gaveta — mobile */}
+      {/* Gaveta: celular */}
       {mobileNav && (
         <div className="fixed inset-0 z-50 md:hidden">
           <div

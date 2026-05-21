@@ -6,7 +6,7 @@ import { createClient } from "./supabase/client";
 
 /**
  * Assina mudanças do banco em tempo real (Supabase Realtime) e invalida o
- * cache do React Query — fazendo a agenda, o calendário e o dashboard
+ * cache do React Query, fazendo a agenda, o calendário e o dashboard
  * atualizarem ao vivo quando outro usuário cria, edita ou cancela algo.
  *
  * Retorna `true` quando a conexão em tempo real está ativa.

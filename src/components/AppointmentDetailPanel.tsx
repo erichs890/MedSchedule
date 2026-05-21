@@ -152,7 +152,7 @@ export function AppointmentDetailPanel({
       if (!res.ok) throw new Error(json.error || "Falha ao processar.");
       setNotes(json.result);
       dirty.current = true;
-      toast("Anotação organizada pela IA — revise e salve.");
+      toast("Anotação organizada pela IA. Revise e salve.");
     } catch (err) {
       toast(
         err instanceof Error ? err.message : "Falha ao processar com a IA.",
@@ -404,7 +404,7 @@ export function AppointmentDetailPanel({
             <div className="flex shrink-0 items-center gap-2 border-t border-line bg-surface px-6 py-4">
               {final ? (
                 <p className="flex-1 text-sm text-ink-muted">
-                  Consulta finalizada — não pode mais ser alterada.
+                  Consulta finalizada. Não pode mais ser alterada.
                 </p>
               ) : (
                 <>

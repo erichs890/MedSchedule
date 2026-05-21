@@ -46,7 +46,7 @@ export const STATUS_META: Record<AppointmentStatus, StatusMeta> = {
   },
 };
 
-/** Cores sólidas (hex) por status — para gráficos e indicadores. */
+/** Cores sólidas (hex) por status, usadas em gráficos e indicadores. */
 export const STATUS_HEX: Record<AppointmentStatus, string> = {
   agendado: "#3b82f6",
   confirmado: "#0ea5e9",

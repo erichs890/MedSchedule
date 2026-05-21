@@ -1,5 +1,5 @@
 -- ============================================================
--- MedSchedule — Anexos do paciente (prontuário)
+-- MedSchedule: Anexos do paciente (prontuário)
 -- Execute no SQL Editor do Supabase para habilitar o upload de
 -- exames e documentos na ficha do paciente.
 -- ============================================================

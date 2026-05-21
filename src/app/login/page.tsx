@@ -88,7 +88,7 @@ export default function LoginPage() {
       return;
     }
 
-    // Senha correta — verifica se há verificação em duas etapas.
+    // Senha correta: verifica se há verificação em duas etapas.
     const { data: aal } =
       await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
     if (aal && aal.nextLevel === "aal2" && aal.nextLevel !== aal.currentLevel) {
@@ -256,7 +256,7 @@ export default function LoginPage() {
                   className="mt-5 w-full rounded-lg border border-dashed border-line bg-muted px-4 py-3 text-left transition-colors hover:border-primary/40 hover:bg-primary-soft/40"
                 >
                   <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
-                    Acesso de demonstração — clique para preencher
+                    Acesso de demonstração (clique para preencher)
                   </p>
                   <p className="mt-1 text-sm text-ink-soft">
                     <span className="font-medium text-ink">{DEMO_EMAIL}</span>

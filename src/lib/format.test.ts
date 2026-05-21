@@ -73,7 +73,7 @@ describe("formatação e utilidades", () => {
   });
 
   it("calcAge calcula a idade", () => {
-    // Nascido em 1990 — em 2026 ou depois tem ao menos 35 anos.
+    // Nascido em 1990: em 2026 ou depois tem ao menos 35 anos.
     expect(calcAge("1990-01-01")).toBeGreaterThanOrEqual(35);
     expect(calcAge(null)).toBeNull();
   });

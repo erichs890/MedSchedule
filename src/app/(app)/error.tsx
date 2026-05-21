@@ -24,7 +24,7 @@ export default function AppError({
         Algo deu errado
       </h2>
       <p className="mt-1 max-w-sm text-sm text-ink-soft">
-        Não foi possível carregar esta tela. Tente novamente — se o problema
+        Não foi possível carregar esta tela. Tente novamente. Se o problema
         continuar, recarregue a página.
       </p>
       <Button onClick={reset} className="mt-5">

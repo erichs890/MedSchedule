@@ -100,11 +100,11 @@ function PacientesContent() {
                 <div className="mt-3 space-y-1 text-sm text-ink-soft">
                   <p className="flex items-center gap-2">
                     <Phone className="h-3.5 w-3.5 text-ink-muted" />
-                    {p.phone || "—"}
+                    {p.phone || "Não informado"}
                   </p>
                   <p className="flex items-center gap-2">
                     <Mail className="h-3.5 w-3.5 text-ink-muted" />
-                    <span className="truncate">{p.email || "—"}</span>
+                    <span className="truncate">{p.email || "Não informado"}</span>
                   </p>
                 </div>
 

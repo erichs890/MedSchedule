@@ -192,7 +192,7 @@ export async function cancelAppointment(
     .update({ status: "cancelado", cancel_reason: reason })
     .eq("id", id);
   if (error) throw error;
-  await addHistory(id, `Consulta cancelada — ${reason}`);
+  await addHistory(id, `Consulta cancelada: ${reason}`);
 }
 
 export async function setStatus(

@@ -270,9 +270,9 @@ export function AppointmentFormModal({ appointment, prefill, onClose }: Props) {
                     <option key={slot} value={slot} disabled={st !== "free"}>
                       {slot}
                       {st === "booked"
-                        ? "  — ocupado"
+                        ? "  (ocupado)"
                         : st === "past"
-                          ? "  — indisponível"
+                          ? "  (indisponível)"
                           : ""}
                     </option>
                   );

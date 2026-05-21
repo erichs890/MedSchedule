@@ -26,7 +26,7 @@ export function ThemeToggle() {
     try {
       localStorage.setItem(STORAGE_KEY, next);
     } catch {
-      /* localStorage indisponível — tudo bem */
+      /* localStorage indisponível, tudo bem */
     }
     bump((n) => n + 1);
   }

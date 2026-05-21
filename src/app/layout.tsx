@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "MedSchedule — Agenda Médica",
+  title: "MedSchedule: Agenda Médica",
   description:
     "Sistema de agenda médica para clínicas: agendamentos, pacientes e acompanhamento de consultas.",
   appleWebApp: {

@@ -1,5 +1,5 @@
 -- ============================================================
--- MedSchedule — Schema do banco de dados (PostgreSQL / Supabase)
+-- MedSchedule: Schema do banco de dados (PostgreSQL e Supabase)
 -- Execute este arquivo no SQL Editor do Supabase.
 -- ============================================================
 

@@ -168,7 +168,7 @@ export default function RelatoriosPage() {
       </div>
 
       {/* Consultas por dia */}
-      <Card title="Consultas — últimos 14 dias" icon={<CalendarCheck className="h-4 w-4" />}>
+      <Card title="Consultas nos últimos 14 dias" icon={<CalendarCheck className="h-4 w-4" />}>
         <ResponsiveContainer width="100%" height={260}>
           <BarChart data={m.daily} margin={{ top: 8, right: 8, bottom: 0, left: -20 }}>
             <XAxis
@@ -200,7 +200,7 @@ export default function RelatoriosPage() {
 
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
         {/* Receita por dia */}
-        <Card title="Receita realizada — últimos 14 dias" icon={<Wallet className="h-4 w-4" />}>
+        <Card title="Receita realizada nos últimos 14 dias" icon={<Wallet className="h-4 w-4" />}>
           <ResponsiveContainer width="100%" height={240}>
             <AreaChart data={m.daily} margin={{ top: 8, right: 8, bottom: 0, left: -10 }}>
               <defs>

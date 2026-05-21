@@ -38,7 +38,7 @@ function WeekChip({
       }}
       onClick={onOpen}
       onKeyDown={(e) => e.key === "Enter" && onOpen()}
-      title={`${formatTime(appt.time)} — ${appt.patient?.full_name}`}
+      title={`${formatTime(appt.time)} · ${appt.patient?.full_name}`}
       style={{ borderLeftColor: STATUS_HEX[appt.status] }}
       className={cn(
         "block w-full truncate rounded-md border-l-[3px] px-1.5 py-1 text-left text-[11px] leading-tight transition",

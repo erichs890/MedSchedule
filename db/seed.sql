@@ -1,5 +1,5 @@
 -- ============================================================
--- MedSchedule — Dados de demonstração
+-- MedSchedule: Dados de demonstração
 -- Execute DEPOIS de schema.sql, no SQL Editor do Supabase.
 -- As datas são relativas a CURRENT_DATE, então a agenda fica
 -- sempre preenchida em torno de "hoje".

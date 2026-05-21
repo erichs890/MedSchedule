@@ -18,7 +18,7 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
-/* Tema escuro — sobrescreve os tokens de cor. */
+/* Tema escuro: sobrescreve os tokens de cor. */
 .dark {
   --color-primary: #6366f1;
   --color-primary-dark: #4f46e5;
