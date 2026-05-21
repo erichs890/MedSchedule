@@ -134,8 +134,11 @@ export function MonthCalendar({
                 <div className="mt-auto w-full">
                   {isSelected ? (
                     <span className="inline-block rounded-md bg-primary px-1.5 py-0.5 text-[10px] font-semibold text-white">
-                      {appts.length}{" "}
-                      {appts.length === 1 ? "consulta" : "consultas"}
+                      {appts.length}
+                      <span className="hidden sm:inline">
+                        {" "}
+                        {appts.length === 1 ? "consulta" : "consultas"}
+                      </span>
                     </span>
                   ) : (
                     <div className="flex gap-0.5">

@@ -46,6 +46,16 @@ export const STATUS_META: Record<AppointmentStatus, StatusMeta> = {
   },
 };
 
+/** Cores sólidas (hex) por status — para gráficos e indicadores. */
+export const STATUS_HEX: Record<AppointmentStatus, string> = {
+  agendado: "#3b82f6",
+  confirmado: "#0ea5e9",
+  aguardando: "#f59e0b",
+  em_atendimento: "#8b5cf6",
+  realizado: "#10b981",
+  cancelado: "#ef4444",
+};
+
 export const LATE_META: StatusMeta = {
   label: "Atrasado",
   badge: "bg-rose-50 text-rose-700",

@@ -25,10 +25,10 @@ npm run dev
 
 Abra http://localhost:3000.
 
-> O arquivo `.env.local` (credenciais do Supabase) **não é versionado** por
-> segurança. Antes de rodar, copie `.env.example` para `.env.local` e preencha
-> com a *URL* e a *anon key* do seu projeto Supabase — veja a seção
-> "Usar seu próprio projeto Supabase" abaixo.
+> O arquivo `.env.local` (credenciais) **não é versionado** por segurança.
+> Antes de rodar, copie `.env.example` para `.env.local` e preencha com a
+> *URL* e a *anon key* do seu projeto Supabase — veja "Usar seu próprio
+> projeto Supabase" abaixo.
 
 ---
 
@@ -38,29 +38,50 @@ Abra http://localhost:3000.
 | ------------- | ------------------------------------------------ |
 | Framework     | Next.js 16 (App Router) + React 19 + TypeScript  |
 | Estilo        | TailwindCSS v4                                   |
-| Backend / BD  | Supabase (PostgreSQL + Auth)                     |
+| Backend / BD  | Supabase (PostgreSQL + Auth + Realtime)          |
 | Dados (cache) | TanStack Query (React Query)                     |
+| Gráficos      | Recharts                                         |
+| IA            | Google Gemini                                    |
 | Ícones        | lucide-react                                     |
 
 ## Funcionalidades
 
+**Escopo do MVP**
 - **Login e autenticação** — sessão real via Supabase Auth, rotas protegidas.
 - **Calendário / Dashboard** — calendário mensal navegável, indicadores do dia
-  (KPIs) e consultas do dia agrupadas por turno.
+  e consultas do dia agrupadas por turno.
 - **Agenda diária** — colunas Manhã / Tarde / Noite com todos os estados
   visuais (normal, em atendimento, realizado, cancelado, atrasado).
 - **Novo agendamento** — modal com busca de paciente, cadastro rápido de
-  paciente integrado, e seleção de horário (slots ocupados/passados bloqueados).
+  paciente integrado e seleção de horário (slots ocupados/passados bloqueados).
 - **Cadastro de pacientes** — com máscaras de CPF e telefone e validações.
-- **Detalhe da consulta** — painel lateral com dados, anotação clínica
-  (autosave), histórico e ações (editar, avançar status, marcar realizada).
+- **Detalhe da consulta** — painel lateral com dados, anotação clínica,
+  histórico e ações (editar, avançar status, marcar realizada).
 - **Edição e cancelamento** — modais com feedback e motivo de cancelamento.
-- **Consultas** — lista filtrável por status e busca por paciente.
-- **Histórico** — linha do tempo de todas as ações do sistema.
-- **Configurações** e **página 404**.
+- **Consultas**, **Histórico**, **Configurações** e **página 404**.
 
-Toda ação é feita **sem reload**, com feedback via toast e atualização
-automática de calendário, agenda e dashboard.
+**Diferenciais (além do pedido)**
+- **🧠 IA na anotação clínica** — botão "Organizar com IA" reescreve a anotação
+  livre em formato clínico estruturado (Gemini).
+- **💬 Assistente virtual (Sofia)** — chatbot com IA que responde dúvidas sobre
+  a clínica, convênios e uso do sistema.
+- **📊 Relatórios e indicadores** — dashboard analítico com gráficos: receita,
+  ticket médio, comparecimento, cancelamento, consultas por dia/status/tipo.
+- **🗓️ Visão semanal com drag & drop** — calendário semanal; arraste uma
+  consulta para outro horário para reagendar.
+- **⚡ Sincronização em tempo real** — via Supabase Realtime, a agenda atualiza
+  ao vivo entre usuários simultâneos.
+- **🔐 Verificação em duas etapas (2FA)** — MFA por TOTP (app autenticador),
+  com ativação em Configurações e desafio no login.
+
+**Segurança**
+- Row Level Security em todas as tabelas.
+- MFA/2FA opcional por usuário.
+- Cabeçalhos de segurança (anti clickjacking, MIME-sniffing, HSTS).
+- Rate limiting nas rotas de IA. Chaves de API nunca expostas ao cliente.
+
+Toda ação é feita **sem reload**, com feedback via toast. Interface
+responsiva (mobile, tablet e desktop).
 
 ## Regras de negócio
 
@@ -79,20 +100,24 @@ automática de calendário, agenda e dashboard.
 ```
 src/
   app/
-    login/            Tela de login
+    login/            Tela de login (com etapa de 2FA)
     (app)/            Área autenticada (sidebar + topbar)
       page.tsx        Calendário / Dashboard
-      agenda/         Agenda diária
+      agenda/         Agenda diária + visão semanal
       pacientes/      Pacientes
       consultas/      Consultas
+      relatorios/     Relatórios e indicadores
       historico/      Histórico de atendimentos
-      configuracoes/  Configurações
+      configuracoes/  Configurações + 2FA
+    api/ai/           Route handler — organizar anotação (IA)
+    api/chat/         Route handler — assistente virtual (IA)
     not-found.tsx     Página 404
-  components/         AppShell, modais, painel de detalhe, UI base
-  lib/                Supabase client, tipos, hooks (React Query), regras
-  proxy.ts            Proteção de rotas (autenticação)
+  components/         AppShell, modais, painel de detalhe, semana,
+                      chat, MFA, UI base
+  lib/                Supabase client, tipos, hooks, realtime, gemini
+  proxy.ts            Proteção de rotas + verificação de MFA
 db/
-  schema.sql          DDL do banco
+  schema.sql          DDL do banco (tabelas, RLS, realtime)
   seed.sql            Dados de demonstração
 ```
 
@@ -100,17 +125,24 @@ db/
 
 1. Crie um projeto em [supabase.com](https://supabase.com).
 2. No **SQL Editor**, execute `db/schema.sql` e depois `db/seed.sql`.
+   O `schema.sql` já habilita o **Realtime** nas tabelas.
 3. Em **Project Settings → API**, copie a *Project URL* e a *anon key*.
 4. Crie um arquivo `.env.local` (use `.env.example` como base) com esses valores.
 5. `npm run dev`.
 
+### Recursos de IA (opcional)
+
+Para ativar o assistente virtual e a organização da anotação clínica, defina
+`GEMINI_API_KEY` no `.env.local` (chave gratuita em
+[aistudio.google.com/apikey](https://aistudio.google.com/apikey)). Sem a chave,
+o app funciona normalmente — apenas a IA fica indisponível.
+
 ## Decisões técnicas
 
-- **Supabase** foi escolhido como backend por entregar PostgreSQL + Auth
-  prontos, permitindo autenticação real dentro do prazo.
-- **React Query** centraliza o cache: cada mutação invalida as queries
-  afetadas, garantindo que todas as telas reflitam o dado atualizado sem reload.
-- **Row Level Security** ativo em todas as tabelas (acesso restrito a usuários
-  autenticados).
-- **Modais e painel de detalhe** são controlados por um `UIProvider` global,
-  acessível de qualquer tela.
+- **Supabase** entrega PostgreSQL + Auth + Realtime + MFA prontos, permitindo
+  autenticação real e sincronização ao vivo dentro do prazo.
+- **React Query** centraliza o cache: cada mutação (e cada evento de tempo
+  real) invalida as queries afetadas, mantendo todas as telas atualizadas.
+- **Modais e painel de detalhe** são controlados por um `UIProvider` global.
+- A **IA** roda em route handlers no servidor, protegidos por sessão e rate
+  limiting, sem expor a chave ao cliente.

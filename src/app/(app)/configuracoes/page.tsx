@@ -8,8 +8,10 @@ import {
   LogOut,
   Stethoscope,
   ShieldCheck,
+  KeyRound,
 } from "lucide-react";
 import { Button } from "@/components/ui";
+import { MfaSettings } from "@/components/MfaSettings";
 import { createClient } from "@/lib/supabase/client";
 import { TIME_SLOTS } from "@/lib/constants";
 
@@ -100,6 +102,13 @@ export default function ConfiguracoesPage() {
           Consultas podem ser canceladas a partir de Agendado ou Confirmado.
           Consultas finalizadas não podem ser alteradas.
         </p>
+      </Card>
+
+      <Card
+        icon={<KeyRound className="h-4.5 w-4.5" />}
+        title="Verificação em duas etapas (2FA)"
+      >
+        <MfaSettings />
       </Card>
 
       <Card icon={<ShieldCheck className="h-4.5 w-4.5" />} title="Conta">

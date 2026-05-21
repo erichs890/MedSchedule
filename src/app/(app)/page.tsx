@@ -72,7 +72,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="grid gap-5 p-5 lg:grid-cols-[minmax(0,1fr)_380px] lg:p-7">
+    <div className="grid grid-cols-1 gap-5 p-5 lg:grid-cols-[minmax(0,1fr)_380px] lg:p-7">
       {/* Calendar */}
       <div className="min-h-[600px]">
         {isLoading ? (

@@ -85,6 +85,22 @@ export function useUpdateAppointment() {
   });
 }
 
+export function useRescheduleAppointment() {
+  const invalidate = useApptInvalidator();
+  return useMutation({
+    mutationFn: ({
+      id,
+      date,
+      time,
+    }: {
+      id: string;
+      date: string;
+      time: string;
+    }) => data.rescheduleAppointment(id, date, time),
+    onSuccess: invalidate,
+  });
+}
+
 export function useCancelAppointment() {
   const invalidate = useApptInvalidator();
   return useMutation({

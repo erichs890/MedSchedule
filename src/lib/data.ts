@@ -170,6 +170,19 @@ export async function updateAppointment(
   return data as Appointment;
 }
 
+export async function rescheduleAppointment(
+  id: string,
+  date: string,
+  time: string,
+): Promise<void> {
+  const { error } = await sb()
+    .from("appointments")
+    .update({ date, time })
+    .eq("id", id);
+  if (error) throw error;
+  await addHistory(id, "Consulta reagendada");
+}
+
 export async function cancelAppointment(
   id: string,
   reason: string,

@@ -67,3 +67,9 @@ create policy "authenticated full access" on public.appointments
   for all to authenticated using (true) with check (true);
 create policy "authenticated full access" on public.appointment_history
   for all to authenticated using (true) with check (true);
+
+-- ------------------- Tempo real (Supabase Realtime) ----------
+-- Permite que a agenda atualize ao vivo entre usuários simultâneos.
+alter publication supabase_realtime add table public.appointments;
+alter publication supabase_realtime add table public.appointment_history;
+alter publication supabase_realtime add table public.patients;

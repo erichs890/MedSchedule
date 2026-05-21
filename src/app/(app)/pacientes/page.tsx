@@ -52,7 +52,7 @@ function PacientesContent() {
       </div>
 
       {isLoading ? (
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
           {[0, 1, 2, 3, 4, 5].map((i) => (
             <Skeleton key={i} className="h-32" />
           ))}
@@ -72,7 +72,7 @@ function PacientesContent() {
           />
         </div>
       ) : (
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
           {list.map((p) => {
             const age = calcAge(p.birth_date);
             return (

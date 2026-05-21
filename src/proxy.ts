@@ -29,16 +29,27 @@ export async function proxy(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // Verificação em duas etapas: uma sessão só de senha (aal1) com MFA
+  // habilitado ainda não está totalmente autenticada.
+  let needsMfa = false;
+  if (user) {
+    const { data: aal } =
+      await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    needsMfa =
+      !!aal && aal.currentLevel === "aal1" && aal.nextLevel === "aal2";
+  }
+  const fullyAuthed = !!user && !needsMfa;
+
   const path = request.nextUrl.pathname;
   const isLoginPage = path === "/login";
 
-  if (!user && !isLoginPage) {
+  if (!fullyAuthed && !isLoginPage) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
   }
 
-  if (user && isLoginPage) {
+  if (fullyAuthed && isLoginPage) {
     const url = request.nextUrl.clone();
     url.pathname = "/";
     return NextResponse.redirect(url);

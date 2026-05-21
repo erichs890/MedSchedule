@@ -10,7 +10,6 @@ import {
   Spinner,
   TextArea,
   TextInput,
-  cn,
 } from "@/components/ui";
 import { PatientModal } from "./PatientModal";
 import { useUI } from "@/components/UIProvider";
@@ -60,9 +59,7 @@ export function AppointmentFormModal({ appointment, prefill, onClose }: Props) {
   const [insurance, setInsurance] = useState(
     appointment?.insurance ?? INSURANCES[0],
   );
-  const [price, setPrice] = useState(
-    appointment ? String(appointment.price) : "",
-  );
+  const [price, setPrice] = useState<number>(appointment?.price ?? 0);
   const [notes, setNotes] = useState(appointment?.notes ?? "");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -114,7 +111,7 @@ export function AppointmentFormModal({ appointment, prefill, onClose }: Props) {
       duration_min: duration,
       type,
       insurance,
-      price: Number(price) || 0,
+      price,
       notes,
     };
     try {
@@ -337,13 +334,24 @@ export function AppointmentFormModal({ appointment, prefill, onClose }: Props) {
                 </span>
                 <TextInput
                   id="a-price"
-                  type="number"
-                  min={0}
-                  step={10}
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
+                  type="text"
+                  inputMode="numeric"
+                  value={
+                    price > 0
+                      ? price.toLocaleString("pt-BR", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })
+                      : ""
+                  }
+                  onChange={(e) => {
+                    const digits = e.target.value
+                      .replace(/\D/g, "")
+                      .slice(0, 11);
+                    setPrice(digits ? Number(digits) / 100 : 0);
+                  }}
                   placeholder="0,00"
-                  className={cn("pl-9")}
+                  className="pl-9"
                 />
               </div>
             </Field>

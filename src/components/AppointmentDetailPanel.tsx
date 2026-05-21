@@ -16,6 +16,7 @@ import {
   NotebookPen,
   Phone,
   Cake,
+  Sparkles,
 } from "lucide-react";
 import { Avatar, Button, Spinner, StatusBadge, cn } from "./ui";
 import { useUI } from "./UIProvider";
@@ -83,6 +84,7 @@ export function AppointmentDetailPanel({
 
   const [notes, setNotes] = useState("");
   const [savedLabel, setSavedLabel] = useState<string | null>(null);
+  const [aiLoading, setAiLoading] = useState(false);
   const dirty = useRef(false);
 
   useEffect(() => {
@@ -131,6 +133,33 @@ export function AppointmentDetailPanel({
     const t = setTimeout(persistNotes, 1600);
     return () => clearTimeout(t);
   }, [notes]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  async function organizeWithAI() {
+    if (!notes.trim()) {
+      toast("Escreva algo na anotação antes de usar a IA.", "error");
+      return;
+    }
+    setAiLoading(true);
+    try {
+      const res = await fetch("/api/ai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ notes }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Falha ao processar.");
+      setNotes(json.result);
+      dirty.current = true;
+      toast("Anotação organizada pela IA — revise e salve.");
+    } catch (err) {
+      toast(
+        err instanceof Error ? err.message : "Falha ao processar com a IA.",
+        "error",
+      );
+    } finally {
+      setAiLoading(false);
+    }
+  }
 
   async function advance() {
     if (!appt) return;
@@ -308,7 +337,21 @@ export function AppointmentDetailPanel({
                   placeholder="Registre evolução, queixas, conduta e orientações pós-consulta..."
                   className="mt-3 w-full resize-y rounded-lg border border-line bg-slate-50/60 px-3 py-2.5 text-sm leading-relaxed text-ink placeholder:text-ink-muted focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/15"
                 />
-                <div className="mt-2 flex justify-end">
+                <div className="mt-2 flex flex-wrap justify-between gap-2">
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    onClick={organizeWithAI}
+                    disabled={aiLoading}
+                    className="text-primary"
+                  >
+                    {aiLoading ? (
+                      <Spinner className="h-3.5 w-3.5" />
+                    ) : (
+                      <Sparkles className="h-3.5 w-3.5" />
+                    )}
+                    Organizar com IA
+                  </Button>
                   <Button
                     size="sm"
                     variant="secondary"
