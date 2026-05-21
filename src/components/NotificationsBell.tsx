@@ -23,22 +23,22 @@ const META: Record<
 > = {
   late: {
     icon: AlertTriangle,
-    tint: "bg-rose-50 text-rose-600",
+    tint: "bg-rose-50 dark:bg-rose-500/15 text-rose-600 dark:text-rose-300",
     title: "Consulta atrasada",
   },
   waiting: {
     icon: Clock,
-    tint: "bg-amber-50 text-amber-600",
+    tint: "bg-amber-50 dark:bg-amber-500/15 text-amber-600 dark:text-amber-300",
     title: "Paciente aguardando",
   },
   active: {
     icon: Activity,
-    tint: "bg-violet-50 text-violet-600",
+    tint: "bg-violet-50 dark:bg-violet-500/15 text-violet-600 dark:text-violet-300",
     title: "Em atendimento",
   },
   upcoming: {
     icon: CalendarClock,
-    tint: "bg-blue-50 text-blue-600",
+    tint: "bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-300",
     title: "Próxima consulta",
   },
 };
@@ -99,20 +99,20 @@ export function NotificationsBell() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="relative rounded-lg p-2 text-ink-soft transition-colors hover:bg-slate-100"
+        className="relative rounded-lg p-2 text-ink-soft transition-colors hover:bg-muted"
         title="Notificações"
         aria-label={`Notificações${count ? ` (${count})` : ""}`}
       >
         <Bell className="h-5 w-5" />
         {count > 0 && (
-          <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-bold text-white ring-2 ring-white">
+          <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-bold text-white ring-2 ring-surface">
             {count > 9 ? "9+" : count}
           </span>
         )}
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full z-40 mt-2 w-80 overflow-hidden rounded-xl border border-line bg-white shadow-xl shadow-slate-900/10 animate-slide-up">
+        <div className="absolute right-0 top-full z-40 mt-2 w-80 overflow-hidden rounded-xl border border-line bg-surface shadow-xl shadow-slate-900/10 animate-slide-up">
           <div className="flex items-center justify-between border-b border-line px-4 py-3">
             <h3 className="text-sm font-semibold text-ink">Notificações</h3>
             {count > 0 && (
@@ -144,7 +144,7 @@ export function NotificationsBell() {
                         openDetail(appt.id);
                         setOpen(false);
                       }}
-                      className="flex w-full items-start gap-3 border-b border-line px-4 py-3 text-left transition-colors last:border-0 hover:bg-slate-50"
+                      className="flex w-full items-start gap-3 border-b border-line px-4 py-3 text-left transition-colors last:border-0 hover:bg-muted"
                     >
                       <span
                         className={cn(

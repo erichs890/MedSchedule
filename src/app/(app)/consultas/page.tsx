@@ -55,7 +55,7 @@ export default function ConsultasPage() {
                 "rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
                 filter === f.key
                   ? "bg-primary text-white"
-                  : "bg-white text-ink-soft border border-line hover:bg-slate-50",
+                  : "bg-surface text-ink-soft border border-line hover:bg-muted",
               )}
             >
               {f.label}
@@ -68,13 +68,13 @@ export default function ConsultasPage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Buscar por paciente..."
-            className="h-10 w-64 rounded-lg border border-line bg-white pl-9 pr-3 text-sm text-ink placeholder:text-ink-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
+            className="h-10 w-64 rounded-lg border border-line bg-surface pl-9 pr-3 text-sm text-ink placeholder:text-ink-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
           />
         </div>
       </div>
 
       {/* List */}
-      <div className="overflow-hidden rounded-2xl border border-line bg-white">
+      <div className="overflow-hidden rounded-2xl border border-line bg-surface">
         {isLoading ? (
           <div className="space-y-2 p-4">
             {[0, 1, 2, 3, 4].map((i) => (
@@ -93,7 +93,7 @@ export default function ConsultasPage() {
               <li key={a.id}>
                 <button
                   onClick={() => openDetail(a.id)}
-                  className="flex w-full items-center gap-4 px-4 py-3 text-left transition-colors hover:bg-slate-50"
+                  className="flex w-full items-center gap-4 px-4 py-3 text-left transition-colors hover:bg-muted"
                 >
                   <Avatar name={a.patient?.full_name ?? "?"} />
                   <div className="min-w-0 flex-1">

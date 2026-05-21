@@ -14,12 +14,18 @@ export default async function AppLayout({
 
   if (!user) redirect("/login");
 
+  const meta = (user.user_metadata ?? {}) as Record<string, unknown>;
   const userName =
-    (user.user_metadata?.name as string | undefined) ?? "Dra. Helena Martins";
+    (meta.name as string) ||
+    (meta.full_name as string) ||
+    user.email?.split("@")[0] ||
+    "Usuário";
   const userEmail = user.email ?? "";
+  const userAvatar =
+    (meta.avatar_url as string) || (meta.picture as string) || null;
 
   return (
-    <AppShell userName={userName} userEmail={userEmail}>
+    <AppShell userName={userName} userEmail={userEmail} userAvatar={userAvatar}>
       {children}
     </AppShell>
   );

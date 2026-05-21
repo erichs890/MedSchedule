@@ -33,8 +33,8 @@ const BUTTON_VARIANTS: Record<ButtonVariant, string> = {
   primary:
     "bg-primary text-white hover:bg-primary-dark shadow-sm shadow-primary/20",
   secondary:
-    "bg-white text-ink-soft border border-line hover:bg-slate-50",
-  ghost: "text-ink-soft hover:bg-slate-100",
+    "bg-surface text-ink-soft border border-line hover:bg-muted",
+  ghost: "text-ink-soft hover:bg-muted",
   danger: "bg-rose-600 text-white hover:bg-rose-700 shadow-sm shadow-rose-600/20",
 };
 
@@ -140,7 +140,7 @@ export function Modal({
       <div
         ref={cardRef}
         className={cn(
-          "relative w-full overflow-hidden rounded-2xl bg-white shadow-2xl animate-slide-up",
+          "relative w-full overflow-hidden rounded-2xl bg-surface shadow-2xl animate-slide-up",
           widthClass,
         )}
         role="dialog"
@@ -158,7 +158,7 @@ export function Modal({
             </div>
             <button
               onClick={onClose}
-              className="rounded-lg p-1.5 text-ink-muted transition-colors hover:bg-slate-100 hover:text-ink"
+              className="rounded-lg p-1.5 text-ink-muted transition-colors hover:bg-muted hover:text-ink"
               aria-label="Fechar"
             >
               <X className="h-5 w-5" />
@@ -167,7 +167,7 @@ export function Modal({
         )}
         <div className="max-h-[70vh] overflow-y-auto px-6 py-5">{children}</div>
         {footer && (
-          <div className="flex items-center justify-end gap-2 border-t border-line bg-slate-50/60 px-6 py-4">
+          <div className="flex items-center justify-end gap-2 border-t border-line bg-muted/60 px-6 py-4">
             {footer}
           </div>
         )}
@@ -207,7 +207,7 @@ export function Field({
 }
 
 const INPUT_BASE =
-  "w-full rounded-lg border border-line bg-white px-3 text-sm text-ink placeholder:text-ink-muted transition-shadow focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15 disabled:bg-slate-50 disabled:text-ink-muted";
+  "w-full rounded-lg border border-line bg-surface px-3 text-sm text-ink placeholder:text-ink-muted transition-shadow focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15 disabled:bg-muted disabled:text-ink-muted";
 
 export function TextInput(props: InputHTMLAttributes<HTMLInputElement>) {
   return (
@@ -270,16 +270,37 @@ const AVATAR_COLORS = [
 
 export function Avatar({
   name,
+  src,
   size = "md",
 }: {
   name: string;
+  src?: string | null;
   size?: "sm" | "md" | "lg";
 }) {
+  const dim =
+    size === "sm"
+      ? "h-8 w-8 text-xs"
+      : size === "lg"
+        ? "h-14 w-14 text-lg"
+        : "h-10 w-10 text-sm";
+
+  if (src) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={src}
+        alt={name}
+        className={cn(
+          "inline-block shrink-0 rounded-full object-cover",
+          dim,
+        )}
+      />
+    );
+  }
+
   let hash = 0;
   for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + hash;
   const color = AVATAR_COLORS[hash % AVATAR_COLORS.length];
-  const dim =
-    size === "sm" ? "h-8 w-8 text-xs" : size === "lg" ? "h-14 w-14 text-lg" : "h-10 w-10 text-sm";
   return (
     <span
       className={cn(
@@ -333,6 +354,6 @@ export function EmptyState({
 
 export function Skeleton({ className }: { className?: string }) {
   return (
-    <div className={cn("animate-pulse rounded-lg bg-slate-200/70", className)} />
+    <div className={cn("animate-pulse rounded-lg bg-muted/70", className)} />
   );
 }

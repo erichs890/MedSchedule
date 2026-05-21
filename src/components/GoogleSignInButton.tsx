@@ -58,7 +58,7 @@ export function GoogleSignInButton({
       type="button"
       onClick={signIn}
       disabled={loading}
-      className="flex h-11 w-full items-center justify-center gap-2.5 rounded-lg border border-line bg-white text-sm font-semibold text-ink transition-colors hover:bg-slate-50 disabled:opacity-60"
+      className="flex h-11 w-full items-center justify-center gap-2.5 rounded-lg border border-line bg-surface text-sm font-semibold text-ink transition-colors hover:bg-muted disabled:opacity-60"
     >
       {loading ? <Spinner className="h-4 w-4 text-ink-muted" /> : <GoogleLogo />}
       {label}

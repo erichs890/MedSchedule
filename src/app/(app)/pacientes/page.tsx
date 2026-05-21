@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useMemo, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Search, UserPlus, Users, Mail, Phone, CalendarPlus } from "lucide-react";
 import { Avatar, Button, EmptyState, Skeleton } from "@/components/ui";
@@ -42,7 +43,7 @@ function PacientesContent() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Buscar por nome ou CPF..."
-            className="h-10 w-72 rounded-lg border border-line bg-white pl-9 pr-3 text-sm text-ink placeholder:text-ink-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
+            className="h-10 w-72 rounded-lg border border-line bg-surface pl-9 pr-3 text-sm text-ink placeholder:text-ink-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
           />
         </div>
         <Button onClick={() => openPatient()}>
@@ -58,7 +59,7 @@ function PacientesContent() {
           ))}
         </div>
       ) : list.length === 0 ? (
-        <div className="rounded-2xl border border-line bg-white">
+        <div className="rounded-2xl border border-line bg-surface">
           <EmptyState
             icon={<Users className="h-6 w-6" />}
             title="Nenhum paciente encontrado"
@@ -78,7 +79,7 @@ function PacientesContent() {
             return (
               <div
                 key={p.id}
-                className="flex flex-col rounded-2xl border border-line bg-white p-4 transition-shadow hover:shadow-md hover:shadow-slate-900/5"
+                className="flex flex-col rounded-2xl border border-line bg-surface p-4 transition-shadow hover:shadow-md hover:shadow-slate-900/5"
               >
                 <div className="flex items-start gap-3">
                   <Avatar name={p.full_name} size="lg" />
@@ -108,14 +109,12 @@ function PacientesContent() {
                 </div>
 
                 <div className="mt-3 flex gap-2 border-t border-line pt-3">
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    className="flex-1"
-                    onClick={() => openPatient(p)}
+                  <Link
+                    href={`/pacientes/${p.id}`}
+                    className="flex h-9 flex-1 items-center justify-center rounded-lg border border-line bg-surface text-sm font-medium text-ink-soft transition-colors hover:bg-muted"
                   >
-                    Ver / Editar
-                  </Button>
+                    Ver perfil
+                  </Link>
                   <Button
                     size="sm"
                     className="flex-1"

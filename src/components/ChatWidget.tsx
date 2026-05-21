@@ -42,7 +42,7 @@ function Bubble({ role, content }: Msg) {
   return (
     <div className="flex gap-2">
       <SofiaAvatar />
-      <div className="max-w-[82%] whitespace-pre-wrap rounded-2xl rounded-bl-md border border-line bg-white px-3 py-2 text-sm leading-relaxed text-ink">
+      <div className="max-w-[82%] whitespace-pre-wrap rounded-2xl rounded-bl-md border border-line bg-surface px-3 py-2 text-sm leading-relaxed text-ink">
         {content}
       </div>
     </div>
@@ -112,7 +112,7 @@ export function ChatWidget() {
 
       {/* Panel */}
       {open && (
-        <div className="fixed bottom-24 right-5 z-30 flex h-[520px] max-h-[calc(100vh-7rem)] w-[calc(100vw-2.5rem)] max-w-[380px] flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-2xl animate-slide-up">
+        <div className="fixed bottom-24 right-5 z-30 flex h-[520px] max-h-[calc(100vh-7rem)] w-[calc(100vw-2.5rem)] max-w-[380px] flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-2xl animate-slide-up">
           {/* Header */}
           <div className="flex items-center gap-3 bg-primary px-4 py-3 text-white">
             <SofiaAvatar size={38} />
@@ -125,7 +125,7 @@ export function ChatWidget() {
             </div>
             <button
               onClick={() => setOpen(false)}
-              className="rounded-lg p-1.5 transition-colors hover:bg-white/15"
+              className="rounded-lg p-1.5 transition-colors hover:bg-surface/15"
               aria-label="Fechar"
             >
               <X className="h-5 w-5" />
@@ -160,7 +160,7 @@ export function ChatWidget() {
             {loading && (
               <div className="flex gap-2">
                 <SofiaAvatar />
-                <div className="flex items-center gap-1 rounded-2xl rounded-bl-md border border-line bg-white px-3 py-3">
+                <div className="flex items-center gap-1 rounded-2xl rounded-bl-md border border-line bg-surface px-3 py-3">
                   {[0, 1, 2].map((i) => (
                     <span
                       key={i}
@@ -182,13 +182,13 @@ export function ChatWidget() {
               e.preventDefault();
               send(input);
             }}
-            className="flex items-center gap-2 border-t border-line bg-white p-3"
+            className="flex items-center gap-2 border-t border-line bg-surface p-3"
           >
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Escreva sua mensagem..."
-              className="h-10 flex-1 rounded-lg border border-line bg-slate-50 px-3 text-sm text-ink placeholder:text-ink-muted focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/15"
+              className="h-10 flex-1 rounded-lg border border-line bg-muted px-3 text-sm text-ink placeholder:text-ink-muted focus:border-primary focus:bg-surface focus:outline-none focus:ring-2 focus:ring-primary/15"
             />
             <button
               type="submit"

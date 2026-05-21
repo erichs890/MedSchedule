@@ -233,6 +233,102 @@ export async function getActivityLog(): Promise<ActivityEntry[]> {
   return (data ?? []) as unknown as ActivityEntry[];
 }
 
+/* ------------------------- Anexos ------------------------- */
+
+export interface PatientAttachment {
+  id: string;
+  patient_id: string;
+  file_name: string;
+  file_path: string;
+  file_size: number | null;
+  mime_type: string | null;
+  created_at: string;
+}
+
+export async function getAttachments(
+  patientId: string,
+): Promise<PatientAttachment[]> {
+  const { data, error } = await sb()
+    .from("patient_attachments")
+    .select("*")
+    .eq("patient_id", patientId)
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return data ?? [];
+}
+
+export async function uploadAttachment(
+  patientId: string,
+  file: File,
+): Promise<void> {
+  const safeName = file.name.replace(/[^\w.\-]+/g, "_");
+  const path = `${patientId}/${Date.now()}-${safeName}`;
+  const { error: uploadError } = await sb()
+    .storage.from("anexos")
+    .upload(path, file, { upsert: false });
+  if (uploadError) throw uploadError;
+  const { error } = await sb().from("patient_attachments").insert({
+    patient_id: patientId,
+    file_name: file.name,
+    file_path: path,
+    file_size: file.size,
+    mime_type: file.type,
+  });
+  if (error) throw error;
+}
+
+export async function deleteAttachment(
+  attachment: PatientAttachment,
+): Promise<void> {
+  await sb().storage.from("anexos").remove([attachment.file_path]);
+  const { error } = await sb()
+    .from("patient_attachments")
+    .delete()
+    .eq("id", attachment.id);
+  if (error) throw error;
+}
+
+export async function getAttachmentUrl(path: string): Promise<string> {
+  const { data, error } = await sb()
+    .storage.from("anexos")
+    .createSignedUrl(path, 3600);
+  if (error) throw error;
+  return data.signedUrl;
+}
+
+/* --------------------------- Conta / perfil --------------------------- */
+
+export async function getCurrentUser() {
+  const { data } = await sb().auth.getUser();
+  return data.user;
+}
+
+/** Envia uma nova foto de perfil e a grava no metadata do usuário. */
+export async function uploadAvatar(file: File): Promise<string> {
+  const { data: userData } = await sb().auth.getUser();
+  const user = userData.user;
+  if (!user) throw new Error("Sessão expirada.");
+
+  const ext = (file.name.split(".").pop() || "png").toLowerCase();
+  const path = `${user.id}/avatar-${Date.now()}.${ext}`;
+
+  const { error: uploadError } = await sb()
+    .storage.from("avatars")
+    .upload(path, file, { upsert: true });
+  if (uploadError) throw uploadError;
+
+  const {
+    data: { publicUrl },
+  } = sb().storage.from("avatars").getPublicUrl(path);
+
+  const { error } = await sb().auth.updateUser({
+    data: { avatar_url: publicUrl },
+  });
+  if (error) throw error;
+
+  return publicUrl;
+}
+
 export async function saveClinicalNotes(
   id: string,
   text: string,

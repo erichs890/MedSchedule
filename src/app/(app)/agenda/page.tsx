@@ -61,7 +61,7 @@ export default function AgendaPage() {
   return (
     <div className="flex h-full flex-col">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-white px-5 py-4 lg:px-7">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-surface px-5 py-4 lg:px-7">
         <div className="flex items-center gap-2.5">
           <h2 className="text-lg font-semibold text-ink">{headerLabel}</h2>
           {isToday && view === "dia" && (
@@ -80,7 +80,7 @@ export default function AgendaPage() {
                 "flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-sm font-medium transition-colors",
                 view === "dia"
                   ? "bg-primary text-white"
-                  : "text-ink-soft hover:bg-slate-100",
+                  : "text-ink-soft hover:bg-muted",
               )}
             >
               <CalendarDays className="h-4 w-4" />
@@ -92,7 +92,7 @@ export default function AgendaPage() {
                 "flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-sm font-medium transition-colors",
                 view === "semana"
                   ? "bg-primary text-white"
-                  : "text-ink-soft hover:bg-slate-100",
+                  : "text-ink-soft hover:bg-muted",
               )}
             >
               <Columns3 className="h-4 w-4" />
@@ -103,7 +103,7 @@ export default function AgendaPage() {
           <div className="flex items-center rounded-lg border border-line">
             <button
               onClick={() => setDate(addDays(date, -step))}
-              className="p-2 text-ink-soft transition-colors hover:bg-slate-100"
+              className="p-2 text-ink-soft transition-colors hover:bg-muted"
               aria-label="Anterior"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -116,7 +116,7 @@ export default function AgendaPage() {
             />
             <button
               onClick={() => setDate(addDays(date, step))}
-              className="p-2 text-ink-soft transition-colors hover:bg-slate-100"
+              className="p-2 text-ink-soft transition-colors hover:bg-muted"
               aria-label="Próximo"
             >
               <ChevronRight className="h-4 w-4" />
@@ -156,7 +156,7 @@ export default function AgendaPage() {
             return (
               <section
                 key={session.key}
-                className="flex flex-col rounded-2xl border border-line bg-white"
+                className="flex flex-col rounded-2xl border border-line bg-surface"
               >
                 <div className="flex items-center justify-between border-b border-line px-4 py-3">
                   <div className="flex items-center gap-2">
@@ -165,7 +165,7 @@ export default function AgendaPage() {
                       {session.label}
                     </h3>
                   </div>
-                  <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-ink-soft">
+                  <span className="rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-ink-soft">
                     {items.length}{" "}
                     {items.length === 1 ? "consulta" : "consultas"}
                   </span>

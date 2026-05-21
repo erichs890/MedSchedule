@@ -76,9 +76,9 @@ export default function CadastroPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-slate-50 to-violet-50 px-4 py-10">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-slate-50 to-violet-50 dark:from-canvas dark:via-sidebar dark:to-canvas px-4 py-10">
       <div className="w-full max-w-md">
-        <div className="overflow-hidden rounded-2xl bg-white shadow-xl shadow-indigo-900/5">
+        <div className="overflow-hidden rounded-2xl bg-surface shadow-xl shadow-indigo-900/5">
           <div className="h-1.5 bg-primary" />
           <div className="px-8 pb-8 pt-9">
             <div className="flex flex-col items-center">
@@ -95,7 +95,7 @@ export default function CadastroPage() {
 
             {done ? (
               <div className="mt-7 flex flex-col items-center text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50 dark:bg-emerald-500/15">
                   <CheckCircle2 className="h-6 w-6 text-emerald-500" />
                 </div>
                 <h2 className="mt-3 text-lg font-semibold text-ink">
@@ -141,7 +141,7 @@ export default function CadastroPage() {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Dra. Helena Martins"
-                        className="h-11 w-full rounded-lg border border-line bg-white pl-10 pr-3 text-sm text-ink placeholder:text-ink-muted transition-shadow focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
+                        className="h-11 w-full rounded-lg border border-line bg-surface pl-10 pr-3 text-sm text-ink placeholder:text-ink-muted transition-shadow focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
                       />
                     </div>
                   </div>
@@ -163,7 +163,7 @@ export default function CadastroPage() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="seuemail@clinica.com.br"
-                        className="h-11 w-full rounded-lg border border-line bg-white pl-10 pr-3 text-sm text-ink placeholder:text-ink-muted transition-shadow focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
+                        className="h-11 w-full rounded-lg border border-line bg-surface pl-10 pr-3 text-sm text-ink placeholder:text-ink-muted transition-shadow focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
                       />
                     </div>
                   </div>
@@ -184,7 +184,7 @@ export default function CadastroPage() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Mínimo de 6 caracteres"
-                        className="h-11 w-full rounded-lg border border-line bg-white pl-10 pr-10 text-sm text-ink placeholder:text-ink-muted transition-shadow focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
+                        className="h-11 w-full rounded-lg border border-line bg-surface pl-10 pr-10 text-sm text-ink placeholder:text-ink-muted transition-shadow focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
                       />
                       <button
                         type="button"
@@ -217,13 +217,13 @@ export default function CadastroPage() {
                         value={confirm}
                         onChange={(e) => setConfirm(e.target.value)}
                         placeholder="Repita a senha"
-                        className="h-11 w-full rounded-lg border border-line bg-white pl-10 pr-3 text-sm text-ink placeholder:text-ink-muted transition-shadow focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
+                        className="h-11 w-full rounded-lg border border-line bg-surface pl-10 pr-3 text-sm text-ink placeholder:text-ink-muted transition-shadow focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
                       />
                     </div>
                   </div>
 
                   {error && (
-                    <div className="flex items-start gap-2 rounded-lg bg-rose-50 px-3 py-2.5 text-sm text-rose-700">
+                    <div className="flex items-start gap-2 rounded-lg bg-rose-50 dark:bg-rose-500/15 px-3 py-2.5 text-sm text-rose-700 dark:text-rose-300">
                       <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
                       <span>{error}</span>
                     </div>

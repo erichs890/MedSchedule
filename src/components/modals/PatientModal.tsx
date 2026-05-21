@@ -134,7 +134,7 @@ export function PatientModal({
             placeholder="Ex.: Maria Aparecida da Silva"
           />
           {errors.full_name && (
-            <p className="text-xs text-rose-600">{errors.full_name}</p>
+            <p className="text-xs text-rose-600 dark:text-rose-300">{errors.full_name}</p>
           )}
         </Field>
 
@@ -148,7 +148,7 @@ export function PatientModal({
               inputMode="numeric"
             />
             {errors.cpf && (
-              <p className="text-xs text-rose-600">{errors.cpf}</p>
+              <p className="text-xs text-rose-600 dark:text-rose-300">{errors.cpf}</p>
             )}
           </Field>
           <Field label="Telefone" htmlFor="p-phone">
@@ -180,7 +180,7 @@ export function PatientModal({
               placeholder="paciente@email.com"
             />
             {errors.email && (
-              <p className="text-xs text-rose-600">{errors.email}</p>
+              <p className="text-xs text-rose-600 dark:text-rose-300">{errors.email}</p>
             )}
           </Field>
         </div>

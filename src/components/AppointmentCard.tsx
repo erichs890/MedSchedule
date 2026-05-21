@@ -19,11 +19,11 @@ export function AppointmentCard({
     <button
       onClick={onClick}
       className={cn(
-        "group w-full rounded-xl border bg-white p-3 text-left transition-all",
+        "group w-full rounded-xl border bg-surface p-3 text-left transition-all",
         "hover:-translate-y-px hover:shadow-md hover:shadow-slate-900/5",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
         active && "border-primary ring-1 ring-primary/25",
-        late && !active && "border-rose-200 bg-rose-50/50",
+        late && !active && "border-rose-200 bg-rose-50 dark:bg-rose-500/15/50",
         cancelled && "opacity-65",
         !active && !late && !cancelled && "border-line",
       )}

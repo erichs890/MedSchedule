@@ -3,7 +3,7 @@ import { CalendarSearch, ArrowLeft } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-slate-50 to-violet-50 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-slate-50 to-violet-50 dark:from-canvas dark:via-sidebar dark:to-canvas px-4">
       <div className="relative flex w-full max-w-md flex-col items-center text-center">
         {/* Faded 404 watermark */}
         <span

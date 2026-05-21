@@ -57,7 +57,7 @@ export function MonthCalendar({
   }
 
   return (
-    <div className="flex h-full flex-col rounded-2xl border border-line bg-white p-5">
+    <div className="flex h-full flex-col rounded-2xl border border-line bg-surface p-5">
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-bold text-ink">
@@ -67,7 +67,7 @@ export function MonthCalendar({
         <div className="flex items-center gap-1 rounded-lg border border-line p-0.5">
           <button
             onClick={onPrev}
-            className="rounded-md p-1.5 text-ink-soft transition-colors hover:bg-slate-100"
+            className="rounded-md p-1.5 text-ink-soft transition-colors hover:bg-muted"
             aria-label="Mês anterior"
           >
             <ChevronLeft className="h-4 w-4" />
@@ -80,7 +80,7 @@ export function MonthCalendar({
           </button>
           <button
             onClick={onNext}
-            className="rounded-md p-1.5 text-ink-soft transition-colors hover:bg-slate-100"
+            className="rounded-md p-1.5 text-ink-soft transition-colors hover:bg-muted"
             aria-label="Próximo mês"
           >
             <ChevronRight className="h-4 w-4" />
@@ -115,7 +115,7 @@ export function MonthCalendar({
                 !cell.inMonth && "opacity-40",
                 isSelected
                   ? "bg-primary-soft/60 ring-2 ring-primary"
-                  : "ring-1 ring-transparent hover:bg-slate-50",
+                  : "ring-1 ring-transparent hover:bg-muted",
               )}
             >
               <span

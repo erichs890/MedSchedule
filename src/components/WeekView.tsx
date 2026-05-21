@@ -121,13 +121,13 @@ export function WeekView({
   }
 
   return (
-    <div className="overflow-auto rounded-2xl border border-line bg-white">
+    <div className="overflow-auto rounded-2xl border border-line bg-surface">
       <div
         className="grid min-w-[820px]"
         style={{ gridTemplateColumns: "56px repeat(7, 1fr)" }}
       >
         {/* Header */}
-        <div className="sticky top-0 z-10 border-b border-r border-line bg-white" />
+        <div className="sticky top-0 z-10 border-b border-r border-line bg-surface" />
         {days.map((d) => {
           const dd = parseDate(d);
           const isToday = d === today;
@@ -135,7 +135,7 @@ export function WeekView({
             <div
               key={d}
               className={cn(
-                "sticky top-0 z-10 border-b border-l border-line bg-white px-2 py-2 text-center",
+                "sticky top-0 z-10 border-b border-l border-line bg-surface px-2 py-2 text-center",
                 isToday && "bg-primary-soft/40",
               )}
             >
@@ -183,11 +183,11 @@ export function WeekView({
                   }
                   className={cn(
                     "min-h-[42px] space-y-0.5 border-b border-l border-line p-1 transition-colors",
-                    past && "bg-slate-50/70",
+                    past && "bg-muted/70",
                     isOver && "bg-primary-soft ring-1 ring-inset ring-primary",
                     cellAppts.length === 0 &&
                       !past &&
-                      "cursor-pointer hover:bg-slate-50",
+                      "cursor-pointer hover:bg-muted",
                   )}
                 >
                   {cellAppts.map((a) => (

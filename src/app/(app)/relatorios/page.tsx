@@ -139,7 +139,7 @@ export default function RelatoriosPage() {
           icon={<Wallet className="h-4 w-4" />}
           label="Receita realizada"
           value={formatCurrency(m.revenue)}
-          tone="text-emerald-600"
+          tone="text-emerald-600 dark:text-emerald-300"
         />
         <Kpi
           icon={<TrendingUp className="h-4 w-4" />}
@@ -157,13 +157,13 @@ export default function RelatoriosPage() {
           icon={<UserCheck className="h-4 w-4" />}
           label="Comparecimento"
           value={`${Math.round(m.attendance * 100)}%`}
-          tone="text-sky-600"
+          tone="text-sky-600 dark:text-sky-300"
         />
         <Kpi
           icon={<XCircle className="h-4 w-4" />}
           label="Cancelamento"
           value={`${Math.round(m.cancelRate * 100)}%`}
-          tone="text-rose-600"
+          tone="text-rose-600 dark:text-rose-300"
         />
       </div>
 
@@ -184,7 +184,7 @@ export default function RelatoriosPage() {
               tickLine={false}
             />
             <Tooltip
-              cursor={{ fill: "#eef2ff" }}
+              cursor={{ fill: "rgba(99,102,241,0.12)" }}
               contentStyle={tooltipStyle}
               labelStyle={{ color: "#0f172a", fontWeight: 600 }}
             />
@@ -297,7 +297,7 @@ export default function RelatoriosPage() {
               axisLine={false}
               tickLine={false}
             />
-            <Tooltip cursor={{ fill: "#eef2ff" }} contentStyle={tooltipStyle} />
+            <Tooltip cursor={{ fill: "rgba(99,102,241,0.12)" }} contentStyle={tooltipStyle} />
             <Bar dataKey="count" fill="#6366f1" radius={[0, 6, 6, 0]} maxBarSize={22} />
           </BarChart>
         </ResponsiveContainer>
@@ -325,7 +325,7 @@ function Kpi({
   tone: string;
 }) {
   return (
-    <div className="rounded-2xl border border-line bg-white p-4">
+    <div className="rounded-2xl border border-line bg-surface p-4">
       <div className={`flex items-center gap-1.5 ${tone}`}>
         {icon}
         <span className="text-[11px] font-semibold uppercase tracking-wide">
@@ -347,7 +347,7 @@ function Card({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-2xl border border-line bg-white p-5">
+    <section className="rounded-2xl border border-line bg-surface p-5">
       <div className="mb-4 flex items-center gap-2 text-ink">
         <span className="text-primary">{icon}</span>
         <h3 className="text-sm font-semibold">{title}</h3>

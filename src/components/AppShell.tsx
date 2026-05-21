@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -21,10 +21,13 @@ import {
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useRealtimeSync } from "@/lib/realtime";
+import { useMounted } from "@/lib/use-mounted";
 import { useUI } from "./UIProvider";
 import { ChatWidget } from "./ChatWidget";
+import { CommandPalette } from "./CommandPalette";
 import { NotificationsBell } from "./NotificationsBell";
-import { Avatar, Button, cn } from "./ui";
+import { ThemeToggle } from "./ThemeToggle";
+import { Avatar, Button, Spinner, cn } from "./ui";
 
 interface NavItem {
   href: string;
@@ -53,14 +56,18 @@ function SidebarContent({
   pathname,
   onNew,
   onLogout,
+  userName,
   userEmail,
+  userAvatar,
   onNavigate,
 }: {
   expanded: boolean;
   pathname: string;
   onNew: () => void;
   onLogout: () => void;
+  userName: string;
   userEmail: string;
+  userAvatar: string | null;
   onNavigate: () => void;
 }) {
   const label = expanded ? "inline" : "hidden lg:inline";
@@ -68,20 +75,24 @@ function SidebarContent({
 
   return (
     <>
-      {/* Logo */}
-      <div className="flex h-[68px] items-center gap-2.5 px-4 lg:px-5">
+      {/* Logo — leva ao calendário */}
+      <Link
+        href="/"
+        onClick={onNavigate}
+        className="flex h-[68px] items-center gap-2.5 px-4 transition-colors hover:bg-muted lg:px-5"
+      >
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary text-white">
           <CalendarHeart className="h-5 w-5" />
         </div>
         <div className={block}>
-          <p className="text-sm font-bold leading-tight text-white">
+          <p className="text-sm font-bold leading-tight text-ink">
             MedSchedule
           </p>
-          <p className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
+          <p className="text-[11px] font-medium uppercase tracking-wider text-ink-muted">
             Medical SaaS
           </p>
         </div>
-      </div>
+      </Link>
 
       {/* New appointment */}
       <div className="px-3 pb-2 pt-1 lg:px-4">
@@ -110,10 +121,10 @@ function SidebarContent({
               onClick={onNavigate}
               className={cn(
                 "flex h-10 items-center gap-3 rounded-lg px-3 text-sm font-medium transition-colors",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
                 active
                   ? "bg-primary text-white"
-                  : "text-slate-300 hover:bg-sidebar-soft hover:text-white",
+                  : "text-ink-soft hover:bg-muted hover:text-ink",
               )}
             >
               <Icon className="h-[18px] w-[18px] shrink-0" />
@@ -123,34 +134,45 @@ function SidebarContent({
         })}
       </nav>
 
-      {/* Footer */}
-      <div className="border-t border-white/10 p-3 lg:p-4">
-        <div className={cn("items-center gap-2.5", expanded ? "flex" : "hidden lg:flex")}>
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-300">
-            <Stethoscope className="h-4 w-4" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-semibold text-white">
-              Clínica Bela Vida
-            </p>
-            <p className="truncate text-xs text-slate-400">{userEmail}</p>
-          </div>
+      {/* Footer — conta do usuário (leva às configurações) */}
+      <div className="border-t border-line p-3 lg:p-4">
+        <div
+          className={cn(
+            "items-center gap-1",
+            expanded ? "flex" : "hidden lg:flex",
+          )}
+        >
+          <Link
+            href="/configuracoes"
+            onClick={onNavigate}
+            title="Configurações do perfil"
+            className="flex min-w-0 flex-1 items-center gap-2.5 rounded-lg px-1.5 py-1 transition-colors hover:bg-muted"
+          >
+            <Avatar name={userName} src={userAvatar} size="sm" />
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-semibold text-ink">
+                {userName}
+              </p>
+              <p className="truncate text-xs text-ink-muted">{userEmail}</p>
+            </div>
+          </Link>
           <button
             onClick={onLogout}
             title="Sair"
-            className="shrink-0 rounded-lg p-2 text-slate-400 transition-colors hover:bg-sidebar-soft hover:text-white"
+            className="shrink-0 rounded-lg p-2 text-ink-muted transition-colors hover:bg-muted hover:text-ink"
           >
             <LogOut className="h-4 w-4" />
           </button>
         </div>
         {!expanded && (
-          <button
-            onClick={onLogout}
-            title="Sair"
-            className="flex w-full items-center justify-center rounded-lg p-2.5 text-slate-400 transition-colors hover:bg-sidebar-soft hover:text-white lg:hidden"
+          <Link
+            href="/configuracoes"
+            onClick={onNavigate}
+            title="Configurações do perfil"
+            className="flex w-full items-center justify-center rounded-lg p-1.5 transition-colors hover:bg-muted lg:hidden"
           >
-            <LogOut className="h-[18px] w-[18px]" />
-          </button>
+            <Avatar name={userName} src={userAvatar} size="sm" />
+          </Link>
         )}
       </div>
     </>
@@ -161,24 +183,21 @@ export function AppShell({
   children,
   userName,
   userEmail,
+  userAvatar,
 }: {
   children: ReactNode;
   userName: string;
   userEmail: string;
+  userAvatar: string | null;
 }) {
   const pathname = usePathname();
   const router = useRouter();
   const { openNew } = useUI();
-  const [search, setSearch] = useState("");
   const [mobileNav, setMobileNav] = useState(false);
   const live = useRealtimeSync();
+  const mounted = useMounted();
 
   const current = NAV.find((n) => isActive(pathname, n.href));
-
-  // Fecha a gaveta ao trocar de rota.
-  useEffect(() => {
-    setMobileNav(false);
-  }, [pathname]);
 
   async function logout() {
     const supabase = createClient();
@@ -187,25 +206,18 @@ export function AppShell({
     router.refresh();
   }
 
-  function submitSearch(e: React.FormEvent) {
-    e.preventDefault();
-    router.push(
-      search.trim()
-        ? `/pacientes?q=${encodeURIComponent(search.trim())}`
-        : "/pacientes",
-    );
-  }
-
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar fixa — tablet e desktop */}
-      <aside className="hidden w-[76px] shrink-0 flex-col bg-sidebar md:flex lg:w-64">
+      <aside className="hidden w-[76px] shrink-0 flex-col border-r border-line bg-surface md:flex lg:w-64">
         <SidebarContent
           expanded={false}
           pathname={pathname}
           onNew={openNew}
           onLogout={logout}
+          userName={userName}
           userEmail={userEmail}
+          userAvatar={userAvatar}
           onNavigate={() => {}}
         />
       </aside>
@@ -217,10 +229,10 @@ export function AppShell({
             className="absolute inset-0 bg-slate-900/50 animate-fade-in"
             onClick={() => setMobileNav(false)}
           />
-          <aside className="animate-slide-in-left relative flex h-full w-64 flex-col bg-sidebar">
+          <aside className="animate-slide-in-left relative flex h-full w-64 flex-col border-r border-line bg-surface">
             <button
               onClick={() => setMobileNav(false)}
-              className="absolute right-3 top-4 rounded-lg p-1.5 text-slate-400 hover:bg-sidebar-soft hover:text-white"
+              className="absolute right-3 top-4 rounded-lg p-1.5 text-ink-muted hover:bg-muted hover:text-ink"
               aria-label="Fechar menu"
             >
               <X className="h-5 w-5" />
@@ -230,7 +242,9 @@ export function AppShell({
               pathname={pathname}
               onNew={openNew}
               onLogout={logout}
+              userName={userName}
               userEmail={userEmail}
+              userAvatar={userAvatar}
               onNavigate={() => setMobileNav(false)}
             />
           </aside>
@@ -240,10 +254,10 @@ export function AppShell({
       {/* Main */}
       <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
         {/* Topbar */}
-        <header className="flex h-[68px] shrink-0 items-center gap-3 border-b border-line bg-white px-4 lg:px-8">
+        <header className="flex h-[68px] shrink-0 items-center gap-3 border-b border-line bg-surface px-4 lg:px-8">
           <button
             onClick={() => setMobileNav(true)}
-            className="-ml-1 rounded-lg p-2 text-ink-soft transition-colors hover:bg-slate-100 md:hidden"
+            className="-ml-1 rounded-lg p-2 text-ink-soft transition-colors hover:bg-muted md:hidden"
             aria-label="Abrir menu"
           >
             <Menu className="h-5 w-5" />
@@ -259,18 +273,22 @@ export function AppShell({
           </div>
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            <form onSubmit={submitSearch} className="relative hidden lg:block">
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
-              <input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Buscar paciente..."
-                className="h-10 w-56 rounded-lg border border-line bg-slate-50 pl-9 pr-3 text-sm text-ink placeholder:text-ink-muted transition-shadow focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/15 xl:w-72"
-              />
-            </form>
+            <button
+              type="button"
+              onClick={() =>
+                window.dispatchEvent(new Event("medschedule:command"))
+              }
+              className="hidden h-10 w-56 items-center gap-2 rounded-lg border border-line bg-muted px-3 text-sm text-ink-muted transition-colors hover:border-primary/30 hover:bg-surface lg:flex xl:w-72"
+            >
+              <Search className="h-4 w-4 shrink-0" />
+              <span className="flex-1 text-left">Buscar...</span>
+              <kbd className="rounded border border-line bg-surface px-1.5 py-0.5 text-[10px] font-semibold">
+                Ctrl K
+              </kbd>
+            </button>
 
             <div
-              className="hidden items-center gap-1.5 rounded-full border border-line bg-white px-2.5 py-1 md:flex"
+              className="hidden items-center gap-1.5 rounded-full border border-line bg-surface px-2.5 py-1 md:flex"
               title={
                 live
                   ? "Sincronização em tempo real ativa"
@@ -280,13 +298,15 @@ export function AppShell({
               <span
                 className={cn(
                   "h-1.5 w-1.5 rounded-full",
-                  live ? "animate-pulse-dot bg-emerald-500" : "bg-slate-300",
+                  live ? "animate-pulse-dot bg-emerald-500" : "bg-ink-muted",
                 )}
               />
               <span className="text-xs font-medium text-ink-soft">
                 {live ? "Ao vivo" : "Conectando"}
               </span>
             </div>
+
+            <ThemeToggle />
 
             <NotificationsBell />
 
@@ -296,20 +316,23 @@ export function AppShell({
                 Novo agendamento
               </Button>
             </div>
-
-            <div title={userName}>
-              <Avatar name={userName} />
-            </div>
           </div>
         </header>
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden">
-          {children}
+          {mounted ? (
+            children
+          ) : (
+            <div className="flex h-full items-center justify-center py-20">
+              <Spinner className="h-7 w-7 text-primary" />
+            </div>
+          )}
         </main>
       </div>
 
-      {/* Assistente virtual */}
+      {/* Assistente virtual + busca global */}
       <ChatWidget />
+      <CommandPalette />
     </div>
   );
 }

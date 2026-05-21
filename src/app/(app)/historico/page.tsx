@@ -56,7 +56,7 @@ export default function HistoricoPage() {
           ))}
         </div>
       ) : groups.length === 0 ? (
-        <div className="rounded-2xl border border-line bg-white">
+        <div className="rounded-2xl border border-line bg-surface">
           <EmptyState
             icon={<HistoryIcon className="h-6 w-6" />}
             title="Sem registros"
@@ -70,7 +70,7 @@ export default function HistoricoPage() {
               <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-muted">
                 {day}
               </h3>
-              <div className="overflow-hidden rounded-2xl border border-line bg-white">
+              <div className="overflow-hidden rounded-2xl border border-line bg-surface">
                 <ul className="divide-y divide-line">
                   {entries.map((entry) => (
                     <li key={entry.id}>
@@ -80,7 +80,7 @@ export default function HistoricoPage() {
                           openDetail(entry.appointment.id)
                         }
                         disabled={!entry.appointment}
-                        className="flex w-full items-center gap-4 px-4 py-3 text-left transition-colors enabled:hover:bg-slate-50 disabled:cursor-default"
+                        className="flex w-full items-center gap-4 px-4 py-3 text-left transition-colors enabled:hover:bg-muted disabled:cursor-default"
                       >
                         <span className="h-2 w-2 shrink-0 rounded-full bg-primary" />
                         <div className="min-w-0 flex-1">

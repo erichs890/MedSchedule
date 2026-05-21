@@ -18,7 +18,7 @@ import {
   Cake,
   Sparkles,
 } from "lucide-react";
-import { Avatar, Button, Spinner, StatusBadge, cn } from "./ui";
+import { Avatar, Button, Spinner, StatusBadge } from "./ui";
 import { useUI } from "./UIProvider";
 import {
   useAppointment,
@@ -89,9 +89,11 @@ export function AppointmentDetailPanel({
 
   useEffect(() => {
     if (appt) {
+      /* eslint-disable react-hooks/set-state-in-effect -- inicializa o editor com os dados da consulta carregada de forma assíncrona */
       setNotes(appt.clinical_notes ?? "");
       dirty.current = false;
       setSavedLabel(null);
+      /* eslint-enable react-hooks/set-state-in-effect */
     }
   }, [appt?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -194,7 +196,7 @@ export function AppointmentDetailPanel({
       />
       <aside className="relative flex h-full w-full max-w-xl flex-col bg-canvas shadow-2xl animate-slide-in-right">
         {/* Header */}
-        <div className="flex shrink-0 items-center justify-between border-b border-line bg-white px-6 py-4">
+        <div className="flex shrink-0 items-center justify-between border-b border-line bg-surface px-6 py-4">
           <div className="flex items-center gap-2.5">
             <FileText className="h-5 w-5 text-primary" />
             <h2 className="text-base font-semibold text-ink">
@@ -206,14 +208,14 @@ export function AppointmentDetailPanel({
               <button
                 onClick={() => openCancel(appt)}
                 title="Cancelar consulta"
-                className="rounded-lg p-2 text-rose-500 transition-colors hover:bg-rose-50"
+                className="rounded-lg p-2 text-rose-500 transition-colors hover:bg-rose-50 dark:bg-rose-500/15"
               >
                 <Ban className="h-4.5 w-4.5" />
               </button>
             )}
             <button
               onClick={onClose}
-              className="rounded-lg p-2 text-ink-muted transition-colors hover:bg-slate-100 hover:text-ink"
+              className="rounded-lg p-2 text-ink-muted transition-colors hover:bg-muted hover:text-ink"
               aria-label="Fechar"
             >
               <X className="h-5 w-5" />
@@ -229,7 +231,7 @@ export function AppointmentDetailPanel({
           <>
             <div className="flex-1 space-y-4 overflow-y-auto p-6">
               {/* Patient card */}
-              <div className="rounded-2xl border border-line bg-white p-5">
+              <div className="rounded-2xl border border-line bg-surface p-5">
                 <div className="flex items-start gap-4">
                   <Avatar
                     name={appt.patient?.full_name ?? "?"}
@@ -294,18 +296,18 @@ export function AppointmentDetailPanel({
                     <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-muted">
                       Observações do agendamento
                     </p>
-                    <p className="mt-1.5 rounded-lg bg-slate-50 px-3 py-2 text-sm text-ink-soft">
+                    <p className="mt-1.5 rounded-lg bg-muted px-3 py-2 text-sm text-ink-soft">
                       {appt.notes}
                     </p>
                   </div>
                 )}
 
                 {appt.status === "cancelado" && appt.cancel_reason && (
-                  <div className="mt-4 rounded-lg bg-rose-50 px-3 py-2.5">
+                  <div className="mt-4 rounded-lg bg-rose-50 dark:bg-rose-500/15 px-3 py-2.5">
                     <p className="text-[11px] font-semibold uppercase tracking-wide text-rose-500">
                       Motivo do cancelamento
                     </p>
-                    <p className="mt-0.5 text-sm text-rose-700">
+                    <p className="mt-0.5 text-sm text-rose-700 dark:text-rose-300">
                       {appt.cancel_reason}
                     </p>
                   </div>
@@ -313,7 +315,7 @@ export function AppointmentDetailPanel({
               </div>
 
               {/* Clinical notes */}
-              <div className="rounded-2xl border border-line bg-white p-5">
+              <div className="rounded-2xl border border-line bg-surface p-5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <NotebookPen className="h-4 w-4 text-primary" />
@@ -335,7 +337,7 @@ export function AppointmentDetailPanel({
                     dirty.current = true;
                   }}
                   placeholder="Registre evolução, queixas, conduta e orientações pós-consulta..."
-                  className="mt-3 w-full resize-y rounded-lg border border-line bg-slate-50/60 px-3 py-2.5 text-sm leading-relaxed text-ink placeholder:text-ink-muted focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/15"
+                  className="mt-3 w-full resize-y rounded-lg border border-line bg-muted/60 px-3 py-2.5 text-sm leading-relaxed text-ink placeholder:text-ink-muted focus:border-primary focus:bg-surface focus:outline-none focus:ring-2 focus:ring-primary/15"
                 />
                 <div className="mt-2 flex flex-wrap justify-between gap-2">
                   <Button
@@ -365,7 +367,7 @@ export function AppointmentDetailPanel({
               </div>
 
               {/* History */}
-              <div className="rounded-2xl border border-line bg-white p-5">
+              <div className="rounded-2xl border border-line bg-surface p-5">
                 <h3 className="text-sm font-semibold text-ink">
                   Histórico da Consulta
                 </h3>
@@ -399,7 +401,7 @@ export function AppointmentDetailPanel({
             </div>
 
             {/* Footer actions */}
-            <div className="flex shrink-0 items-center gap-2 border-t border-line bg-white px-6 py-4">
+            <div className="flex shrink-0 items-center gap-2 border-t border-line bg-surface px-6 py-4">
               {final ? (
                 <p className="flex-1 text-sm text-ink-muted">
                   Consulta finalizada — não pode mais ser alterada.

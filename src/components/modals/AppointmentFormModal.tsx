@@ -204,7 +204,7 @@ export function AppointmentFormModal({ appointment, prefill, onClose }: Props) {
                       className="pl-9"
                     />
                     {showList && matches.length > 0 && (
-                      <div className="absolute z-10 mt-1 max-h-56 w-full overflow-y-auto rounded-lg border border-line bg-white py-1 shadow-lg">
+                      <div className="absolute z-10 mt-1 max-h-56 w-full overflow-y-auto rounded-lg border border-line bg-surface py-1 shadow-lg">
                         {matches.map((p) => (
                           <button
                             key={p.id}
@@ -213,7 +213,7 @@ export function AppointmentFormModal({ appointment, prefill, onClose }: Props) {
                               setPatientId(p.id);
                               setShowList(false);
                             }}
-                            className="flex w-full flex-col px-3 py-2 text-left transition-colors hover:bg-slate-50"
+                            className="flex w-full flex-col px-3 py-2 text-left transition-colors hover:bg-muted"
                           >
                             <span className="text-sm font-medium text-ink">
                               {p.full_name}
@@ -241,7 +241,7 @@ export function AppointmentFormModal({ appointment, prefill, onClose }: Props) {
               </Button>
             </div>
             {errors.patient && (
-              <p className="text-xs text-rose-600">{errors.patient}</p>
+              <p className="text-xs text-rose-600 dark:text-rose-300">{errors.patient}</p>
             )}
           </Field>
 
@@ -254,7 +254,7 @@ export function AppointmentFormModal({ appointment, prefill, onClose }: Props) {
                 onChange={(e) => setDate(e.target.value)}
               />
               {errors.date && (
-                <p className="text-xs text-rose-600">{errors.date}</p>
+                <p className="text-xs text-rose-600 dark:text-rose-300">{errors.date}</p>
               )}
             </Field>
             <Field label="Horário" required htmlFor="a-time">
@@ -279,7 +279,7 @@ export function AppointmentFormModal({ appointment, prefill, onClose }: Props) {
                 })}
               </Select>
               {errors.time && (
-                <p className="text-xs text-rose-600">{errors.time}</p>
+                <p className="text-xs text-rose-600 dark:text-rose-300">{errors.time}</p>
               )}
             </Field>
           </div>

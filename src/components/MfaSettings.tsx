@@ -110,9 +110,9 @@ export function MfaSettings() {
   if (status === "on") {
     return (
       <div>
-        <div className="flex items-center gap-2 rounded-lg bg-emerald-50 px-3 py-2.5">
-          <Check className="h-4 w-4 text-emerald-600" />
-          <p className="text-sm font-medium text-emerald-700">
+        <div className="flex items-center gap-2 rounded-lg bg-emerald-50 dark:bg-emerald-500/15 px-3 py-2.5">
+          <Check className="h-4 w-4 text-emerald-600 dark:text-emerald-300" />
+          <p className="text-sm font-medium text-emerald-700 dark:text-emerald-300">
             Verificação em duas etapas ativada.
           </p>
         </div>
@@ -145,14 +145,14 @@ export function MfaSettings() {
           <img
             src={qr}
             alt="QR Code para verificação em duas etapas"
-            className="h-44 w-44 rounded-lg border border-line bg-white"
+            className="h-44 w-44 rounded-lg border border-line bg-surface"
           />
           <div className="flex-1 space-y-3">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
                 Ou insira esta chave manualmente
               </p>
-              <code className="mt-1 block break-all rounded-md bg-slate-100 px-2 py-1.5 text-xs text-ink">
+              <code className="mt-1 block break-all rounded-md bg-muted px-2 py-1.5 text-xs text-ink">
                 {secret}
               </code>
             </div>
@@ -168,13 +168,13 @@ export function MfaSettings() {
                   setCode(e.target.value.replace(/\D/g, "").slice(0, 6))
                 }
                 placeholder="000000"
-                className="mt-1 h-11 w-full rounded-lg border border-line bg-white text-center text-lg font-bold tracking-[0.4em] text-ink placeholder:text-ink-muted/40 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
+                className="mt-1 h-11 w-full rounded-lg border border-line bg-surface text-center text-lg font-bold tracking-[0.4em] text-ink placeholder:text-ink-muted/40 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
               />
             </div>
           </div>
         </div>
 
-        {error && <p className="text-sm text-rose-600">{error}</p>}
+        {error && <p className="text-sm text-rose-600 dark:text-rose-300">{error}</p>}
 
         <div className="flex gap-2">
           <Button variant="ghost" onClick={cancelEnroll} disabled={busy}>
@@ -195,7 +195,7 @@ export function MfaSettings() {
   return (
     <div>
       <div className="flex items-start gap-3">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-ink-soft">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-muted text-ink-soft">
           <Smartphone className="h-4.5 w-4.5" />
         </span>
         <p className="text-sm text-ink-soft">
@@ -203,7 +203,7 @@ export function MfaSettings() {
           celular além da senha. Recomendado para proteger dados de pacientes.
         </p>
       </div>
-      {error && <p className="mt-2 text-sm text-rose-600">{error}</p>}
+      {error && <p className="mt-2 text-sm text-rose-600 dark:text-rose-300">{error}</p>}
       <div className="mt-3">
         <Button onClick={startEnroll} disabled={busy}>
           {busy ? <Spinner /> : <ShieldCheck className="h-4 w-4" />}

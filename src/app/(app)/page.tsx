@@ -43,7 +43,10 @@ export default function DashboardPage() {
     return map;
   }, [appointments]);
 
-  const dayAppointments = byDate.get(selected) ?? [];
+  const dayAppointments = useMemo(
+    () => byDate.get(selected) ?? [],
+    [byDate, selected],
+  );
 
   const kpis = useMemo(() => {
     return {
@@ -97,7 +100,7 @@ export default function DashboardPage() {
       {/* Side panel */}
       <div className="space-y-5">
         {/* Resumo do dia */}
-        <div className="rounded-2xl border border-line bg-white p-5">
+        <div className="rounded-2xl border border-line bg-surface p-5">
           <div className="flex items-baseline justify-between">
             <h2 className="text-base font-semibold text-ink">Resumo do dia</h2>
             <span className="text-xs font-medium text-ink-muted">
@@ -108,28 +111,28 @@ export default function DashboardPage() {
             <KpiCard
               label="Total"
               value={kpis.total}
-              tone="bg-slate-50 text-ink"
+              tone="bg-muted text-ink"
             />
             <KpiCard
               label="Confirmados"
               value={kpis.confirmados}
-              tone="bg-sky-50 text-sky-700"
+              tone="bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300"
             />
             <KpiCard
               label="Aguardando"
               value={kpis.aguardando}
-              tone="bg-amber-50 text-amber-700"
+              tone="bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300"
             />
             <KpiCard
               label="Finalizados"
               value={kpis.finalizados}
-              tone="bg-emerald-50 text-emerald-700"
+              tone="bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
             />
           </div>
         </div>
 
         {/* Consultas do dia */}
-        <div className="rounded-2xl border border-line bg-white p-5">
+        <div className="rounded-2xl border border-line bg-surface p-5">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-base font-semibold text-ink">
               Consultas do dia

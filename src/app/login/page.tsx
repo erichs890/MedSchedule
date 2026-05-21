@@ -44,7 +44,10 @@ export default function LoginPage() {
   // Mostra erro vindo do callback do login social.
   useEffect(() => {
     const erro = new URLSearchParams(window.location.search).get("erro");
-    if (erro) setError(erro);
+    if (erro) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- lê o parâmetro de erro da URL uma única vez após a montagem
+      setError(erro);
+    }
   }, []);
 
   // Detecta sessão pendente de MFA (usuário voltou sem concluir a 2ª etapa).
@@ -132,9 +135,9 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-slate-50 to-violet-50 px-4 py-10">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 via-slate-50 to-violet-50 dark:from-canvas dark:via-sidebar dark:to-canvas px-4 py-10">
       <div className="w-full max-w-md">
-        <div className="overflow-hidden rounded-2xl bg-white shadow-xl shadow-indigo-900/5">
+        <div className="overflow-hidden rounded-2xl bg-surface shadow-xl shadow-indigo-900/5">
           <div className="h-1.5 bg-primary" />
           <div className="px-8 pb-8 pt-9">
             {/* Logo */}
@@ -179,7 +182,7 @@ export default function LoginPage() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="seuemail@clinica.com.br"
-                        className="h-11 w-full rounded-lg border border-line bg-white pl-10 pr-3 text-sm text-ink placeholder:text-ink-muted transition-shadow focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
+                        className="h-11 w-full rounded-lg border border-line bg-surface pl-10 pr-3 text-sm text-ink placeholder:text-ink-muted transition-shadow focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
                       />
                     </div>
                   </div>
@@ -214,7 +217,7 @@ export default function LoginPage() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="••••••••••"
-                        className="h-11 w-full rounded-lg border border-line bg-white pl-10 pr-10 text-sm text-ink placeholder:text-ink-muted transition-shadow focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
+                        className="h-11 w-full rounded-lg border border-line bg-surface pl-10 pr-10 text-sm text-ink placeholder:text-ink-muted transition-shadow focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
                       />
                       <button
                         type="button"
@@ -232,7 +235,7 @@ export default function LoginPage() {
                   </div>
 
                   {error && (
-                    <div className="flex items-start gap-2 rounded-lg bg-rose-50 px-3 py-2.5 text-sm text-rose-700">
+                    <div className="flex items-start gap-2 rounded-lg bg-rose-50 dark:bg-rose-500/15 px-3 py-2.5 text-sm text-rose-700 dark:text-rose-300">
                       <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
                       <span>{error}</span>
                     </div>
@@ -250,7 +253,7 @@ export default function LoginPage() {
                     setPassword(DEMO_PASSWORD);
                     setError(null);
                   }}
-                  className="mt-5 w-full rounded-lg border border-dashed border-line bg-slate-50 px-4 py-3 text-left transition-colors hover:border-primary/40 hover:bg-primary-soft/40"
+                  className="mt-5 w-full rounded-lg border border-dashed border-line bg-muted px-4 py-3 text-left transition-colors hover:border-primary/40 hover:bg-primary-soft/40"
                 >
                   <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
                     Acesso de demonstração — clique para preencher
@@ -312,11 +315,11 @@ export default function LoginPage() {
                       setCode(e.target.value.replace(/\D/g, "").slice(0, 6))
                     }
                     placeholder="000000"
-                    className="h-14 w-full rounded-lg border border-line bg-white text-center text-2xl font-bold tracking-[0.5em] text-ink placeholder:text-ink-muted/40 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
+                    className="h-14 w-full rounded-lg border border-line bg-surface text-center text-2xl font-bold tracking-[0.5em] text-ink placeholder:text-ink-muted/40 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/15"
                   />
 
                   {error && (
-                    <div className="flex items-start gap-2 rounded-lg bg-rose-50 px-3 py-2.5 text-sm text-rose-700">
+                    <div className="flex items-start gap-2 rounded-lg bg-rose-50 dark:bg-rose-500/15 px-3 py-2.5 text-sm text-rose-700 dark:text-rose-300">
                       <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
                       <span>{error}</span>
                     </div>

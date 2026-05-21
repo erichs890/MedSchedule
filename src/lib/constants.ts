@@ -10,37 +10,37 @@ export interface StatusMeta {
 export const STATUS_META: Record<AppointmentStatus, StatusMeta> = {
   agendado: {
     label: "Agendado",
-    badge: "bg-blue-50 text-blue-700",
+    badge: "bg-blue-50 dark:bg-blue-500/15 text-blue-700 dark:text-blue-300",
     dot: "bg-blue-500",
     ring: "border-blue-200",
   },
   confirmado: {
     label: "Confirmado",
-    badge: "bg-sky-50 text-sky-700",
+    badge: "bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300",
     dot: "bg-sky-500",
     ring: "border-sky-200",
   },
   aguardando: {
     label: "Aguardando",
-    badge: "bg-amber-50 text-amber-700",
+    badge: "bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300",
     dot: "bg-amber-500",
     ring: "border-amber-200",
   },
   em_atendimento: {
     label: "Em atendimento",
-    badge: "bg-violet-50 text-violet-700",
+    badge: "bg-violet-50 dark:bg-violet-500/15 text-violet-700 dark:text-violet-300",
     dot: "bg-violet-500",
     ring: "border-violet-300",
   },
   realizado: {
     label: "Realizado",
-    badge: "bg-emerald-50 text-emerald-700",
+    badge: "bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300",
     dot: "bg-emerald-500",
     ring: "border-emerald-200",
   },
   cancelado: {
     label: "Cancelado",
-    badge: "bg-rose-50 text-rose-600",
+    badge: "bg-rose-50 dark:bg-rose-500/15 text-rose-600 dark:text-rose-300",
     dot: "bg-rose-400",
     ring: "border-rose-200",
   },
@@ -58,7 +58,7 @@ export const STATUS_HEX: Record<AppointmentStatus, string> = {
 
 export const LATE_META: StatusMeta = {
   label: "Atrasado",
-  badge: "bg-rose-50 text-rose-700",
+  badge: "bg-rose-50 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300",
   dot: "bg-rose-500",
   ring: "border-rose-300",
 };

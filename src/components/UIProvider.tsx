@@ -119,7 +119,7 @@ export function UIProvider({ children }: { children: ReactNode }) {
           <div
             key={t.id}
             className={cn(
-              "pointer-events-auto flex items-start gap-3 rounded-xl border border-line bg-white px-4 py-3 shadow-lg shadow-slate-900/5 animate-slide-up",
+              "pointer-events-auto flex items-start gap-3 rounded-xl border border-line bg-surface px-4 py-3 shadow-lg shadow-slate-900/5 animate-slide-up",
             )}
           >
             <div className="mt-0.5 shrink-0">{TOAST_ICON[t.kind]}</div>

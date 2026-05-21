@@ -46,6 +46,49 @@ export function useActivityLog() {
   return useQuery({ queryKey: ["activity"], queryFn: data.getActivityLog });
 }
 
+export function useCurrentUser() {
+  return useQuery({
+    queryKey: ["current-user"],
+    queryFn: data.getCurrentUser,
+  });
+}
+
+export function useUploadAvatar() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (file: File) => data.uploadAvatar(file),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["current-user"] }),
+  });
+}
+
+export function useAttachments(patientId: string | null) {
+  return useQuery({
+    queryKey: ["attachments", patientId],
+    queryFn: () => data.getAttachments(patientId!),
+    enabled: !!patientId,
+    retry: false,
+  });
+}
+
+export function useUploadAttachment(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (file: File) => data.uploadAttachment(patientId, file),
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: ["attachments", patientId] }),
+  });
+}
+
+export function useDeleteAttachment(patientId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (attachment: data.PatientAttachment) =>
+      data.deleteAttachment(attachment),
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: ["attachments", patientId] }),
+  });
+}
+
 export function useBookedTimes(date: string, excludeId?: string) {
   return useQuery({
     queryKey: ["bookedTimes", date, excludeId ?? null],

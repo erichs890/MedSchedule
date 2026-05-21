@@ -56,7 +56,7 @@ export function CancelModal({
       }
     >
       <div className="flex flex-col items-center text-center">
-        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-rose-50">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-rose-50 dark:bg-rose-500/15">
           <AlertTriangle className="h-6 w-6 text-rose-500" />
         </div>
         <h2 className="mt-3 text-lg font-semibold text-ink">
@@ -91,7 +91,7 @@ export function CancelModal({
         />
         <div className="flex items-center justify-between">
           {error ? (
-            <p className="text-xs text-rose-600">Informe o motivo.</p>
+            <p className="text-xs text-rose-600 dark:text-rose-300">Informe o motivo.</p>
           ) : (
             <span />
           )}
