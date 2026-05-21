@@ -2,6 +2,8 @@
 
 import {
   useEffect,
+  useId,
+  useRef,
   type ButtonHTMLAttributes,
   type InputHTMLAttributes,
   type ReactNode,
@@ -11,6 +13,7 @@ import {
 import { X } from "lucide-react";
 import { STATUS_META, LATE_META } from "@/lib/constants";
 import { initials } from "@/lib/format";
+import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
 import type { AppointmentStatus } from "@/lib/types";
 
 export function cn(...classes: (string | false | null | undefined)[]): string {
@@ -45,9 +48,9 @@ export function Button({
   return (
     <button
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors",
+        "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
-        "disabled:opacity-50 disabled:pointer-events-none",
+        "active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none",
         size === "sm" ? "h-9 px-3 text-sm" : "h-10 px-4 text-sm",
         BUTTON_VARIANTS[variant],
         className,
@@ -80,14 +83,49 @@ export function Modal({
   footer,
   widthClass = "max-w-lg",
 }: ModalProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const titleId = useId();
+
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    lockScroll();
+    const card = cardRef.current;
+
+    const focusables = () =>
+      Array.from(
+        card?.querySelectorAll<HTMLElement>(
+          'button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      ).filter((el) => el.offsetParent !== null);
+
+    // Foco inicial: primeiro campo de formulário, senão primeiro elemento focável.
+    const initial =
+      card?.querySelector<HTMLElement>("input, textarea, select") ??
+      focusables()[0];
+    initial?.focus();
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const f = focusables();
+      if (f.length === 0) return;
+      const first = f[0];
+      const last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
     document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
+      unlockScroll();
     };
   }, [open, onClose]);
 
@@ -100,18 +138,23 @@ export function Modal({
         onClick={onClose}
       />
       <div
+        ref={cardRef}
         className={cn(
           "relative w-full overflow-hidden rounded-2xl bg-white shadow-2xl animate-slide-up",
           widthClass,
         )}
         role="dialog"
         aria-modal="true"
+        aria-labelledby={title ? titleId : undefined}
+        data-layer="modal"
       >
         {title && (
           <div className="flex items-center justify-between border-b border-line px-6 py-4">
             <div className="flex items-center gap-2.5">
               {icon}
-              <h2 className="text-base font-semibold text-ink">{title}</h2>
+              <h2 id={titleId} className="text-base font-semibold text-ink">
+                {title}
+              </h2>
             </div>
             <button
               onClick={onClose}
@@ -202,7 +245,7 @@ export function StatusBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full font-semibold whitespace-nowrap",
+        "inline-flex shrink-0 items-center gap-1.5 rounded-full font-semibold whitespace-nowrap",
         meta.badge,
         size === "sm" ? "px-2.5 py-0.5 text-[11px]" : "px-3 py-1 text-xs",
       )}

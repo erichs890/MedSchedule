@@ -115,6 +115,7 @@ export function AppShell({
                 title={item.label}
                 className={cn(
                   "flex h-10 items-center gap-3 rounded-lg px-3 text-sm font-medium transition-colors",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40",
                   active
                     ? "bg-primary text-white"
                     : "text-slate-300 hover:bg-sidebar-soft hover:text-white",
@@ -129,11 +130,12 @@ export function AppShell({
 
         {/* Footer */}
         <div className="border-t border-white/10 p-3 lg:p-4">
-          <div className="flex items-center gap-2.5">
+          {/* Expandido (desktop) */}
+          <div className="hidden items-center gap-2.5 lg:flex">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-300">
               <Stethoscope className="h-4 w-4" />
             </div>
-            <div className="hidden min-w-0 flex-1 lg:block">
+            <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-semibold text-white">
                 Clínica Bela Vida
               </p>
@@ -142,11 +144,19 @@ export function AppShell({
             <button
               onClick={logout}
               title="Sair"
-              className="hidden shrink-0 rounded-lg p-2 text-slate-400 transition-colors hover:bg-sidebar-soft hover:text-white lg:block"
+              className="shrink-0 rounded-lg p-2 text-slate-400 transition-colors hover:bg-sidebar-soft hover:text-white"
             >
               <LogOut className="h-4 w-4" />
             </button>
           </div>
+          {/* Colapsado (tablet) */}
+          <button
+            onClick={logout}
+            title="Sair"
+            className="flex w-full items-center justify-center rounded-lg p-2.5 text-slate-400 transition-colors hover:bg-sidebar-soft hover:text-white lg:hidden"
+          >
+            <LogOut className="h-[18px] w-[18px]" />
+          </button>
         </div>
       </aside>
 

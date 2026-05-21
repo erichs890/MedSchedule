@@ -178,19 +178,17 @@ export function AppointmentFormModal({ appointment, prefill, onClose }: Props) {
                     <span className="text-sm font-medium text-ink">
                       {selectedPatient.full_name}
                     </span>
-                    {!editing && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setPatientId(null);
-                          setQuery("");
-                        }}
-                        className="text-ink-muted hover:text-ink"
-                        aria-label="Remover paciente"
-                      >
-                        <X className="h-4 w-4" />
-                      </button>
-                    )}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPatientId(null);
+                        setQuery("");
+                      }}
+                      className="text-ink-muted hover:text-ink"
+                      aria-label="Remover paciente"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
                   </div>
                 ) : (
                   <>
@@ -235,17 +233,15 @@ export function AppointmentFormModal({ appointment, prefill, onClose }: Props) {
                   </>
                 )}
               </div>
-              {!editing && (
-                <Button
-                  type="button"
-                  variant="secondary"
-                  onClick={() => setPatientModalOpen(true)}
-                  className="shrink-0 text-primary"
-                >
-                  <UserPlus className="h-4 w-4" />
-                  Novo
-                </Button>
-              )}
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => setPatientModalOpen(true)}
+                className="shrink-0 text-primary"
+              >
+                <UserPlus className="h-4 w-4" />
+                Novo
+              </Button>
             </div>
             {errors.patient && (
               <p className="text-xs text-rose-600">{errors.patient}</p>

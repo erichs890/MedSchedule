@@ -41,7 +41,7 @@ export function AppointmentCard({
           <div className="flex items-start justify-between gap-2">
             <p
               className={cn(
-                "truncate text-sm font-semibold text-ink",
+                "min-w-0 flex-1 truncate text-sm font-semibold text-ink",
                 cancelled && "line-through decoration-rose-300",
               )}
             >

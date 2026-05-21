@@ -35,6 +35,7 @@ import {
   isFinal,
   isLate,
 } from "@/lib/format";
+import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
 
 function formatTimestamp(iso: string): { date: string; time: string } {
   const d = new Date(iso);
@@ -93,9 +94,18 @@ export function AppointmentDetailPanel({
   }, [appt?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    lockScroll();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      // Não fecha o painel se houver um modal aberto sobre ele.
+      if (document.querySelector('[data-layer="modal"]')) return;
+      onClose();
+    };
     document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      unlockScroll();
+    };
   }, [onClose]);
 
   async function persistNotes() {

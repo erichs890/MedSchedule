@@ -105,3 +105,17 @@ select,
 button {
   font-family: inherit;
 }
+
+button:not(:disabled),
+[role="button"]:not(:disabled),
+a[href],
+label[for],
+select:not(:disabled),
+summary {
+  cursor: pointer;
+}
+
+button:disabled,
+[role="button"][aria-disabled="true"] {
+  cursor: not-allowed;
+}

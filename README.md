@@ -23,9 +23,12 @@ npm install
 npm run dev
 ```
 
-Abra http://localhost:3000. O projeto já vem com um arquivo `.env.local`
-apontando para uma instância Supabase pronta (banco + autenticação + dados de
-demonstração). Para usar seu próprio projeto Supabase, veja a seção abaixo.
+Abra http://localhost:3000.
+
+> O arquivo `.env.local` (credenciais do Supabase) **não é versionado** por
+> segurança. Antes de rodar, copie `.env.example` para `.env.local` e preencha
+> com a *URL* e a *anon key* do seu projeto Supabase — veja a seção
+> "Usar seu próprio projeto Supabase" abaixo.
 
 ---
 
@@ -111,4 +114,3 @@ db/
   autenticados).
 - **Modais e painel de detalhe** são controlados por um `UIProvider` global,
   acessível de qualquer tela.
-"# MedSchedule" 

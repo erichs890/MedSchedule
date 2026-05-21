@@ -87,7 +87,7 @@ export default function AgendaPage() {
       </div>
 
       {/* Sessions */}
-      <div className="grid flex-1 gap-4 overflow-y-auto p-5 md:grid-cols-3 lg:p-7">
+      <div className="grid flex-1 gap-4 overflow-y-auto p-5 lg:grid-cols-3 lg:p-7">
         {SESSIONS.map((session) => {
           const items = dayAppts.filter(
             (a) => getSession(a.time) === session.key,
