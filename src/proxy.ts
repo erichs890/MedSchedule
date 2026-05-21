@@ -41,15 +41,19 @@ export async function proxy(request: NextRequest) {
   const fullyAuthed = !!user && !needsMfa;
 
   const path = request.nextUrl.pathname;
-  const isLoginPage = path === "/login";
+  // Rotas públicas: login, cadastro e o callback do login social.
+  const isPublic =
+    path === "/login" ||
+    path === "/cadastro" ||
+    path.startsWith("/auth/");
 
-  if (!fullyAuthed && !isLoginPage) {
+  if (!fullyAuthed && !isPublic) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
   }
 
-  if (fullyAuthed && isLoginPage) {
+  if (fullyAuthed && (path === "/login" || path === "/cadastro")) {
     const url = request.nextUrl.clone();
     url.pathname = "/";
     return NextResponse.redirect(url);

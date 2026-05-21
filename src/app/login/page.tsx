@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   CalendarHeart,
@@ -13,6 +14,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { GoogleSignInButton } from "@/components/GoogleSignInButton";
 import { Button, Spinner } from "@/components/ui";
 
 const DEMO_EMAIL = "doutor@clinica.com.br";
@@ -38,6 +40,12 @@ export default function LoginPage() {
     router.replace("/");
     router.refresh();
   }
+
+  // Mostra erro vindo do callback do login social.
+  useEffect(() => {
+    const erro = new URLSearchParams(window.location.search).get("erro");
+    if (erro) setError(erro);
+  }, []);
 
   // Detecta sessão pendente de MFA (usuário voltou sem concluir a 2ª etapa).
   useEffect(() => {
@@ -255,6 +263,27 @@ export default function LoginPage() {
                     </span>
                   </p>
                 </button>
+
+                <div className="my-5 flex items-center gap-3">
+                  <span className="h-px flex-1 bg-line" />
+                  <span className="text-xs font-medium text-ink-muted">OU</span>
+                  <span className="h-px flex-1 bg-line" />
+                </div>
+
+                <GoogleSignInButton
+                  label="Entrar com Google"
+                  onError={(m) => setError(m || null)}
+                />
+
+                <p className="mt-6 text-center text-sm text-ink-soft">
+                  Não tem uma conta?{" "}
+                  <Link
+                    href="/cadastro"
+                    className="font-semibold text-primary hover:underline"
+                  >
+                    Cadastre-se
+                  </Link>
+                </p>
               </>
             ) : (
               <>
