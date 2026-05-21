@@ -9,12 +9,17 @@ import type {
 } from "./types";
 import { STATUS_META } from "./constants";
 
-const supabase = createClient();
+// Cliente Supabase criado sob demanda (lazy). Evita que o build/prerender
+// quebre ao avaliar este módulo antes de as variáveis de ambiente existirem.
+let _client: ReturnType<typeof createClient> | null = null;
+function sb() {
+  return (_client ??= createClient());
+}
 
 const APPT_SELECT = "*, patient:patients(*)";
 
 async function addHistory(appointmentId: string, action: string) {
-  await supabase
+  await sb()
     .from("appointment_history")
     .insert({ appointment_id: appointmentId, action });
 }
@@ -22,7 +27,7 @@ async function addHistory(appointmentId: string, action: string) {
 /* ----------------------------- Patients ----------------------------- */
 
 export async function getPatients(): Promise<Patient[]> {
-  const { data, error } = await supabase
+  const { data, error } = await sb()
     .from("patients")
     .select("*")
     .order("full_name");
@@ -31,7 +36,7 @@ export async function getPatients(): Promise<Patient[]> {
 }
 
 export async function createPatient(input: PatientInput): Promise<Patient> {
-  const { data, error } = await supabase
+  const { data, error } = await sb()
     .from("patients")
     .insert({
       full_name: input.full_name,
@@ -51,7 +56,7 @@ export async function updatePatient(
   id: string,
   input: PatientInput,
 ): Promise<Patient> {
-  const { data, error } = await supabase
+  const { data, error } = await sb()
     .from("patients")
     .update({
       full_name: input.full_name,
@@ -71,7 +76,7 @@ export async function updatePatient(
 /* --------------------------- Appointments --------------------------- */
 
 export async function getAppointments(): Promise<Appointment[]> {
-  const { data, error } = await supabase
+  const { data, error } = await sb()
     .from("appointments")
     .select(APPT_SELECT)
     .order("date")
@@ -81,7 +86,7 @@ export async function getAppointments(): Promise<Appointment[]> {
 }
 
 export async function getAppointment(id: string): Promise<Appointment> {
-  const { data, error } = await supabase
+  const { data, error } = await sb()
     .from("appointments")
     .select(APPT_SELECT)
     .eq("id", id)
@@ -93,7 +98,7 @@ export async function getAppointment(id: string): Promise<Appointment> {
 export async function getHistory(
   appointmentId: string,
 ): Promise<HistoryEntry[]> {
-  const { data, error } = await supabase
+  const { data, error } = await sb()
     .from("appointment_history")
     .select("*")
     .eq("appointment_id", appointmentId)
@@ -107,7 +112,7 @@ export async function getBookedTimes(
   date: string,
   excludeId?: string,
 ): Promise<string[]> {
-  const { data, error } = await supabase
+  const { data, error } = await sb()
     .from("appointments")
     .select("id, time, status")
     .eq("date", date)
@@ -121,7 +126,7 @@ export async function getBookedTimes(
 export async function createAppointment(
   input: AppointmentInput,
 ): Promise<Appointment> {
-  const { data, error } = await supabase
+  const { data, error } = await sb()
     .from("appointments")
     .insert({
       patient_id: input.patient_id,
@@ -145,7 +150,7 @@ export async function updateAppointment(
   id: string,
   input: AppointmentInput,
 ): Promise<Appointment> {
-  const { data, error } = await supabase
+  const { data, error } = await sb()
     .from("appointments")
     .update({
       patient_id: input.patient_id,
@@ -169,7 +174,7 @@ export async function cancelAppointment(
   id: string,
   reason: string,
 ): Promise<void> {
-  const { error } = await supabase
+  const { error } = await sb()
     .from("appointments")
     .update({ status: "cancelado", cancel_reason: reason })
     .eq("id", id);
@@ -181,7 +186,7 @@ export async function setStatus(
   id: string,
   status: AppointmentStatus,
 ): Promise<void> {
-  const { error } = await supabase
+  const { error } = await sb()
     .from("appointments")
     .update({ status })
     .eq("id", id);
@@ -204,7 +209,7 @@ export interface ActivityEntry {
 }
 
 export async function getActivityLog(): Promise<ActivityEntry[]> {
-  const { data, error } = await supabase
+  const { data, error } = await sb()
     .from("appointment_history")
     .select(
       "id, action, created_at, appointment:appointments(id, date, time, status, type, patient:patients(full_name))",
@@ -219,7 +224,7 @@ export async function saveClinicalNotes(
   id: string,
   text: string,
 ): Promise<void> {
-  const { error } = await supabase
+  const { error } = await sb()
     .from("appointments")
     .update({ clinical_notes: text })
     .eq("id", id);
