@@ -73,6 +73,7 @@ npm run test:e2e     # testes ponta a ponta (Playwright)
 | 🔔 | **Central de notificações** | Sino que lista consultas atrasadas, pacientes aguardando e próximos atendimentos. |
 | ⌨️ | **Command palette (Ctrl/⌘+K)** | Busca global e ações rápidas por teclado. |
 | 👤 | **Cadastro + login com Google** | Registro de usuários e autenticação social (OAuth). |
+| 🖼️ | **Perfil do usuário** | Conta acessível pela barra lateral, com upload de foto (Supabase Storage) e importação automática da foto do Google. |
 | 📱 | **PWA + responsividade** | App instalável; layout fluido para mobile, tablet e desktop. |
 | 🌗 | **Tema claro e escuro** | Alternância de tema com persistência e detecção da preferência do sistema. |
 | 🛡️ | **Segurança** | RLS, MFA, headers de segurança e rate limiting nas rotas de IA. |
@@ -88,6 +89,8 @@ npm run test:e2e     # testes ponta a ponta (Playwright)
 - **Agendamentos** — criação, edição, cancelamento e detalhe em painel lateral,
   com anotação clínica, histórico e fluxo de status.
 - **Pacientes** — cadastro com máscaras e validações, listagem com busca e prontuário.
+- **Conta do usuário** — perfil com foto (upload ou foto do Google), 2FA e
+  preferências, acessível direto pela barra lateral.
 - **Consultas**, **Histórico**, **Configurações** e **página 404**.
 
 Toda ação ocorre **sem reload**, com feedback via toast.
