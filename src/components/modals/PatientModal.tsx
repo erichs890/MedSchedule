@@ -132,9 +132,17 @@ export function PatientModal({
             value={form.full_name}
             onChange={(e) => set("full_name", e.target.value)}
             placeholder="Ex.: Maria Aparecida da Silva"
+            aria-invalid={!!errors.full_name}
+            aria-describedby={errors.full_name ? "p-name-error" : undefined}
           />
           {errors.full_name && (
-            <p className="text-xs text-rose-600 dark:text-rose-300">{errors.full_name}</p>
+            <p
+              id="p-name-error"
+              role="alert"
+              className="text-xs text-rose-600 dark:text-rose-300"
+            >
+              {errors.full_name}
+            </p>
           )}
         </Field>
 
@@ -146,9 +154,17 @@ export function PatientModal({
               onChange={(e) => set("cpf", maskCPF(e.target.value))}
               placeholder="000.000.000-00"
               inputMode="numeric"
+              aria-invalid={!!errors.cpf}
+              aria-describedby={errors.cpf ? "p-cpf-error" : undefined}
             />
             {errors.cpf && (
-              <p className="text-xs text-rose-600 dark:text-rose-300">{errors.cpf}</p>
+              <p
+                id="p-cpf-error"
+                role="alert"
+                className="text-xs text-rose-600 dark:text-rose-300"
+              >
+                {errors.cpf}
+              </p>
             )}
           </Field>
           <Field label="Telefone" htmlFor="p-phone">
@@ -178,9 +194,17 @@ export function PatientModal({
               value={form.email}
               onChange={(e) => set("email", e.target.value)}
               placeholder="paciente@email.com"
+              aria-invalid={!!errors.email}
+              aria-describedby={errors.email ? "p-email-error" : undefined}
             />
             {errors.email && (
-              <p className="text-xs text-rose-600 dark:text-rose-300">{errors.email}</p>
+              <p
+                id="p-email-error"
+                role="alert"
+                className="text-xs text-rose-600 dark:text-rose-300"
+              >
+                {errors.email}
+              </p>
             )}
           </Field>
         </div>

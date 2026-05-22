@@ -10,19 +10,53 @@ const inter = Inter({
   display: "swap",
 });
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://med-schedule-seven.vercel.app";
+const TITLE = "MedSchedule: Agenda Médica";
+const DESCRIPTION =
+  "Sistema de agenda médica para clínicas: agendamentos, pacientes, prontuário e acompanhamento de consultas em tempo real.";
+
 export const metadata: Metadata = {
-  title: "MedSchedule: Agenda Médica",
-  description:
-    "Sistema de agenda médica para clínicas: agendamentos, pacientes e acompanhamento de consultas.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: TITLE,
+    template: "%s · MedSchedule",
+  },
+  description: DESCRIPTION,
+  applicationName: "MedSchedule",
+  keywords: [
+    "agenda médica",
+    "clínica",
+    "agendamento de consultas",
+    "prontuário",
+    "gestão de pacientes",
+    "software para consultório",
+  ],
+  authors: [{ name: "MedSchedule" }],
+  formatDetection: { telephone: false },
   appleWebApp: {
     capable: true,
     title: "MedSchedule",
     statusBarStyle: "default",
   },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    url: SITE_URL,
+    siteName: "MedSchedule",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export const viewport: Viewport = {
   themeColor: "#4f46e5",
+  viewportFit: "cover",
 };
 
 // Aplica o tema salvo antes da primeira pintura (evita "flash" de tema claro).

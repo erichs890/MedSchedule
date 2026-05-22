@@ -76,6 +76,7 @@ npm run test:e2e     # testes ponta a ponta (Playwright)
 | 🖼️ | **Perfil do usuário** | Conta acessível pela barra lateral, com upload de foto (Supabase Storage) e importação automática da foto do Google. |
 | 📱 | **PWA e responsividade** | Aplicativo instalável, com layout fluido para celular, tablet e computador. |
 | 🌗 | **Tema claro e escuro** | Alternância de tema com persistência e detecção da preferência do sistema. |
+| ♿ | **Acessibilidade** | Navegação por teclado, foco preso e restaurado nos modais, atributos ARIA e respeito ao `prefers-reduced-motion`. |
 | 🛡️ | **Segurança** | RLS, MFA, cabeçalhos de segurança e rate limiting nas rotas de IA. |
 
 ---
@@ -100,9 +101,14 @@ Toda ação ocorre **sem recarregar a página**, com feedback por meio de toasts
 ## 🧪 Qualidade e engenharia
 
 - **Testes unitários** (Vitest) para as regras de negócio e as formatações.
-- **Testes ponta a ponta** (Playwright) que cobrem login, navegação e proteção
-  de rotas.
+- **Testes ponta a ponta** (Playwright) que cobrem login, navegação, proteção de
+  rotas, validação de formulários e o CRUD de pacientes e consultas.
 - **CI no GitHub Actions** que roda lint, testes e build a cada push.
+- **Acessibilidade:** foco preso e restaurado nos modais, navegação por teclado,
+  atributos ARIA, notificações anunciadas por leitores de tela e suporte a
+  `prefers-reduced-motion`.
+- **SEO e compartilhamento:** metadados Open Graph e Twitter Card, imagem de
+  compartilhamento gerada dinamicamente, `robots.txt` e `sitemap.xml`.
 - **Error boundaries** (`error.tsx`, `loading.tsx` e `global-error.tsx`) que
   garantem que o app nunca quebre em tela branca.
 - **TypeScript** estrito e **ESLint** sem avisos.
@@ -139,6 +145,7 @@ src/
       error.tsx loading.tsx           Tratamento de erros
     api/ai/ api/chat/                 Route handlers de IA
     not-found.tsx manifest.ts icon.tsx
+    opengraph-image.tsx robots.ts sitemap.ts   Metadados e SEO
   components/         AppShell, modais, painel de detalhe, chat,
                       command palette, notificações, MFA e UI base
   lib/                Supabase, tipos, hooks, realtime e gemini

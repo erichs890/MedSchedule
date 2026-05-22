@@ -113,11 +113,16 @@ export function UIProvider({ children }: { children: ReactNode }) {
         />
       )}
 
-      {/* Toast viewport */}
-      <div className="pointer-events-none fixed right-5 top-5 z-[100] flex w-80 flex-col gap-2">
+      {/* Toast viewport — anunciado por leitores de tela */}
+      <div
+        className="pointer-events-none fixed right-5 top-5 z-[100] flex w-80 flex-col gap-2"
+        aria-label="Notificações"
+      >
         {toasts.map((t) => (
           <div
             key={t.id}
+            role={t.kind === "error" ? "alert" : "status"}
+            aria-live={t.kind === "error" ? "assertive" : "polite"}
             className={cn(
               "pointer-events-auto flex items-start gap-3 rounded-xl border border-line bg-surface px-4 py-3 shadow-lg shadow-slate-900/5 animate-slide-up",
             )}

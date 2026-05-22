@@ -204,11 +204,17 @@ export function AppointmentFormModal({ appointment, prefill, onClose }: Props) {
                       className="pl-9"
                     />
                     {showList && matches.length > 0 && (
-                      <div className="absolute z-10 mt-1 max-h-56 w-full overflow-y-auto rounded-lg border border-line bg-surface py-1 shadow-lg">
+                      <div
+                        role="listbox"
+                        aria-label="Pacientes encontrados"
+                        className="absolute z-10 mt-1 max-h-56 w-full overflow-y-auto rounded-lg border border-line bg-surface py-1 shadow-lg"
+                      >
                         {matches.map((p) => (
                           <button
                             key={p.id}
                             type="button"
+                            role="option"
+                            aria-selected={false}
                             onMouseDown={() => {
                               setPatientId(p.id);
                               setShowList(false);
@@ -241,7 +247,9 @@ export function AppointmentFormModal({ appointment, prefill, onClose }: Props) {
               </Button>
             </div>
             {errors.patient && (
-              <p className="text-xs text-rose-600 dark:text-rose-300">{errors.patient}</p>
+              <p role="alert" className="text-xs text-rose-600 dark:text-rose-300">
+                {errors.patient}
+              </p>
             )}
           </Field>
 
@@ -252,9 +260,17 @@ export function AppointmentFormModal({ appointment, prefill, onClose }: Props) {
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
+                aria-invalid={!!errors.date}
+                aria-describedby={errors.date ? "a-date-error" : undefined}
               />
               {errors.date && (
-                <p className="text-xs text-rose-600 dark:text-rose-300">{errors.date}</p>
+                <p
+                  id="a-date-error"
+                  role="alert"
+                  className="text-xs text-rose-600 dark:text-rose-300"
+                >
+                  {errors.date}
+                </p>
               )}
             </Field>
             <Field label="Horário" required htmlFor="a-time">
@@ -262,6 +278,8 @@ export function AppointmentFormModal({ appointment, prefill, onClose }: Props) {
                 id="a-time"
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
+                aria-invalid={!!errors.time}
+                aria-describedby={errors.time ? "a-time-error" : undefined}
               >
                 <option value="">Selecione...</option>
                 {TIME_SLOTS.map((slot) => {
@@ -279,7 +297,13 @@ export function AppointmentFormModal({ appointment, prefill, onClose }: Props) {
                 })}
               </Select>
               {errors.time && (
-                <p className="text-xs text-rose-600 dark:text-rose-300">{errors.time}</p>
+                <p
+                  id="a-time-error"
+                  role="alert"
+                  className="text-xs text-rose-600 dark:text-rose-300"
+                >
+                  {errors.time}
+                </p>
               )}
             </Field>
           </div>

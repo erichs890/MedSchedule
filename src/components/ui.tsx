@@ -85,11 +85,19 @@ export function Modal({
 }: ModalProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
+  // Mantém onClose num ref para o efeito não re-executar quando o pai
+  // recria a função (o que zerava o foco e a trava de rolagem).
+  const onCloseRef = useRef(onClose);
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  });
 
   useEffect(() => {
     if (!open) return;
     lockScroll();
     const card = cardRef.current;
+    // Guarda o elemento focado antes de abrir para devolver o foco ao fechar.
+    const previouslyFocused = document.activeElement as HTMLElement | null;
 
     const focusables = () =>
       Array.from(
@@ -106,7 +114,7 @@ export function Modal({
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        onClose();
+        onCloseRef.current();
         return;
       }
       if (e.key !== "Tab") return;
@@ -126,8 +134,9 @@ export function Modal({
     return () => {
       document.removeEventListener("keydown", onKey);
       unlockScroll();
+      previouslyFocused?.focus?.();
     };
-  }, [open, onClose]);
+  }, [open]);
 
   if (!open) return null;
 

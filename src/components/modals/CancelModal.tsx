@@ -88,10 +88,18 @@ export function CancelModal({
             setError(false);
           }}
           placeholder="Descreva brevemente o motivo para registro no histórico..."
+          aria-invalid={error}
+          aria-describedby={error ? "cancel-reason-error" : undefined}
         />
         <div className="flex items-center justify-between">
           {error ? (
-            <p className="text-xs text-rose-600 dark:text-rose-300">Informe o motivo.</p>
+            <p
+              id="cancel-reason-error"
+              role="alert"
+              className="text-xs text-rose-600 dark:text-rose-300"
+            >
+              Informe o motivo.
+            </p>
           ) : (
             <span />
           )}
